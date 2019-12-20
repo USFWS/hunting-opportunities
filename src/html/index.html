@@ -1,0 +1,94 @@
+<!doctype html>
+<html class="no-js" lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <title>Find your Hunt!</title>
+  <meta name="description" content="Hunting on national wildlife refuges is a tradition that dates to the early 1900s. Today, more than 370 refuges and many other U.S. Fish and Wildlife Service lands are open to the public for hunting – seasonally and in accordance with state regulations.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/styles.css">
+  <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign"></script>
+</head>
+
+<body>
+  <aside class="search-panel">
+    <div class="title-bar">
+      <a href="https://www.fws.gov/">
+        <img src="https://www.fws.gov/southeast/images/svg/logo.svg" alt="A shield with a blue duck and fish jumping out of the water with a mountain in the background; the official logo of the U.S. Fish and Wildlife Service">
+      </a>
+      <h1 class="page-title">Find Your Hunt</h1>
+      <a href="https://www.fws.gov/refuges/">
+        <img src="https://www.fws.gov/refuges/features/images/blue-goose.svg" alt="An illustration of a blue goose, the official logo of the National Wildlife Refuge System">
+      </a>
+    </div>
+    <form class="search-form">
+
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" checked id="facility" name="search-input" value="facility">
+          <label for="facility">By Facility</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="zipcode" name="search-input" value="zipcode">
+          <label for="zipcode">By Zipcode</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="state" name="search-input" value="state">
+          <label for="state">By State</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="species" name="search-input" value="species">
+          <label for="species">By Species</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="special" name="search-input" value="special">
+          <label for="special">Special hunts</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="search-input">Search</label>
+        <input type="search">
+      </div>
+
+      <div class="form-group" aria-hidden="true">
+        <label for="state-select">State</label>
+        <select name="state-select" id="state-select"></select>
+      </div>
+      <div class="form-group" aria-hidden="true">
+        <label for="species-select">Species</label>
+        <select name="species-select" id="species-select"></select>
+      </div>
+      <div class="form-group" aria-hidden="true">
+        <label for="special-hunt-select">Special hunts</label>
+        <select name="special-hunt-select" id="special-hunt-select">
+          <option value="veterans">Veterans hunts</option>
+          <option value="disabled">Disabled hunts</option>
+          <option value="youth">Youth hunts</option>
+          <option value="mentored">Mentored hunts</option>
+        </select>
+      </div>
+    </form>
+    <div class="loading spinner" aria-hidden="true">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+    <p class="search-results-length"></p>
+    <p class="message">Search by facility name, or huntable species</p>
+    <div class="search-results-content"></div>
+    <button class="toggle-results" aria-hidden="true">Toggle results</button>
+  </aside>
+  <div id="map"></div>
+
+  <script src="./js/bundle.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+$blue: #0055af;
+
+@font-face {
+  font-family: "Merriweather";
+  src: url("https://www.fws.gov/refuges/fonts/merriweather-bold-webfont.woff2") format("woff2"),
+    url("https://www.fws.gov/refuges/fonts/merriweather-bold-webfont.woff") format("woff"),
+    url("https://www.fws.gov/refuges/fonts/merriweather-bold-webfont.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+$serif: Merriweather, Georgia, Verdana, serif;
+
+html {
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: Merriweather, Georgia, serif;
+}
+
+@import 'normalize';
+@import 'leaflet';
+@import 'map';
+@import 'search-panel';
+@import 'base';
+@import 'loading';
