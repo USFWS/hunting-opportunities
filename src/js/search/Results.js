@@ -22,6 +22,9 @@ const Results = function (opts) {
   this.toggle = opts.toggleResults;
   this.content = opts.content;
 
+  this.content.addEventListener('click', this.handleResultClick.bind(this));
+  this.toggle.addEventListener('click', this.toggleSearchResults.bind(this));
+
   emitter.on('click:huntunit', (props) => {
     this.empty();
     this.content.innerHTML = templates.hunt(props);
@@ -98,9 +101,6 @@ const Results = function (opts) {
         this.loading.setAttribute('aria-hidden', 'true');
       });
   });
-
-  this.content.addEventListener('click', this.handleResultClick.bind(this));
-  this.toggle.addEventListener('click', this.toggleSearchResults.bind(this));
 };
 
 Results.prototype.activateInput = function (input) {
@@ -132,6 +132,11 @@ Results.prototype.handleResultClick = function (e) {
     const facilityName = closest(e.target, '.facility-info').querySelector('.facility-name').textContent;
     const refuge = helpers.findRefugeByName(facilityName, this.data);
     emitter.emit('zoom:refuge', refuge);
+  }
+
+  if (e.target.className === 'zoom-to-hunt-unit') {
+    HuntService.getHuntUnitByObjectId(e.target.value)
+      .then((unit) => emitter.emit('zoom:unit', unit));
   }
 };
 

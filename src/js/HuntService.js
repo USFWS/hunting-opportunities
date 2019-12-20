@@ -1,13 +1,19 @@
 const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1/';
 const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/2/';
 
-const getRelatedHuntableSpecies = (objectIDs) => {
-  const API_URL = `${HUNT_UNIT_URL}queryRelatedRecords?outFields=*&f=pjson&objectIds=${objectIDs}`;
+const getHuntUnitsByOrgCode = (orgCode) => {
+  const API_URL = `${HUNT_UNIT_URL}query?where=OrgCode+%3D+${orgCode}&outFields=*&f=pgeojson`;
   return fetch(API_URL)
     .then((res) => res.json())
-    .then((data) => data.relatedRecordGroups[0]) // do we need more than one related record here?
-    .then((result) => result.relatedRecords)
-    .then((species) => species.map((s) => s.attributes));
+    .then((geojson) => geojson.features)
+    .then((features) => features.map((f) => f.properties));
+};
+
+const getHuntUnitByObjectId = (id) => {
+  const API_URL = `${HUNT_UNIT_URL}query?objectIds=${id}&outFields=*&f=pgeojson`;
+  return fetch(API_URL)
+    .then((res) => res.json())
+    .then((data) => data.features[0]);
 };
 
 const getRelatedHuntUnits = (objectIDs) => {
@@ -18,12 +24,13 @@ const getRelatedHuntUnits = (objectIDs) => {
     .then((result) => (result ? result.relatedRecords[0].attributes : []));
 };
 
-const getHuntUnitsByOrgCode = (orgCode) => {
-  const API_URL = `${HUNT_UNIT_URL}query?where=OrgCode+%3D+${orgCode}&outFields=*&f=pgeojson`;
+const getRelatedHuntableSpecies = (objectIDs) => {
+  const API_URL = `${HUNT_UNIT_URL}queryRelatedRecords?outFields=*&f=pjson&objectIds=${objectIDs}`;
   return fetch(API_URL)
     .then((res) => res.json())
-    .then((geojson) => geojson.features)
-    .then((features) => features.map((f) => f.properties));
+    .then((data) => data.relatedRecordGroups[0]) // do we need more than one related record here?
+    .then((result) => result.relatedRecords)
+    .then((species) => species.map((s) => s.attributes));
 };
 
 const getUniqueHuntableSpecies = () => {
@@ -68,6 +75,7 @@ const combineSpeciesAndHuntUnit = (huntData) => huntData.species.map((s) => {
 
 module.exports = {
   getHuntUnitsByOrgCode,
+  getHuntUnitByObjectId,
   getRelatedHuntUnits,
   getRelatedHuntableSpecies,
   getUniqueHuntableSpecies,

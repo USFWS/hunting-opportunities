@@ -13,6 +13,11 @@ const emptyGeojson = {
   features: [],
 };
 
+const paddingOptions = {
+  paddingTopLeft: [375, 50],
+  paddingBottomRight: [50, 50],
+};
+
 const onEachFeature = (feat, layer) => {
   const props = feat.properties;
   layer.bindPopup(`<p><strong><a href="${props.URL}">${props.OrgName}</a></strong></p>`);
@@ -23,6 +28,15 @@ const onEachFeature = (feat, layer) => {
 const Map = function (opts) {
   this.map = L.map('map', { zoomControl: false }).fitBounds(GLOBAL_BOUNDS.init);
   this.data = opts.data;
+
+  this.currentHuntUnit = L.geoJSON(emptyGeojson, {
+    style: {
+      color: '#ff7800',
+      fillColor: '#ff8000',
+      fill: true,
+      weight: 10,
+    },
+  }).addTo(this.map);
 
   this.filtered = L.geoJSON(emptyGeojson, {
     onEachFeature,
@@ -42,6 +56,7 @@ const Map = function (opts) {
   L.control.layers(layers.basemaps, {
     'Refuge boundaries': layers.refuges,
     'Refuge amenities': layers.amenities,
+    'Current hunt unit': this.currentHuntUnit,
     'Hunt units': layers.huntUnits,
   }).addTo(this.map);
   L.control.zoom({ position: 'topright' }).addTo(this.map);
@@ -49,15 +64,17 @@ const Map = function (opts) {
   emitter.on('set:bounds', (bounds) => this.map.fitBounds(bounds));
   emitter.on('zoom:refuge', (refuge) => {
     const coordinates = [...refuge.geometry.coordinates].reverse();
-    this.map.flyTo(coordinates, 12, {
-      paddingTopLeft: [375, 50],
-      paddingBottomRight: [50, 50],
-    });
+    this.map.flyTo(coordinates, 12, { ...paddingOptions });
+  });
+  emitter.on('zoom:unit', (unit) => {
+    this.currentHuntUnit.clearLayers();
+    this.currentHuntUnit.addData({ ...emptyGeojson, features: [unit] });
+    this.map.flyToBounds(this.currentHuntUnit.getBounds(), { ...paddingOptions });
   });
   emitter.on('render:results', (features) => {
-    const bounds = helpers.featuresToBounds(features);
     this.filtered.clearLayers();
     this.filtered.addData({ ...emptyGeojson, features });
+    const bounds = this.filtered.getBounds();
     if (bounds) {
       this.map.fitBounds(bounds, {
         paddingTopLeft: [375, 50],

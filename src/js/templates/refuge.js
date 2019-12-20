@@ -2,7 +2,7 @@ const { formatAcreage } = require('../helpers');
 
 const huntable = (unit) => unit.Huntable.toLowerCase() === 'yes';
 
-const createListItem = (unit) => `<li>${unit.HuntUnit} (${formatAcreage(unit.Acreage)} acres)</li>`;
+const createListItem = (unit) => `<li>${unit.HuntUnit} (${formatAcreage(unit.Acreage)} acres) <button class="zoom-to-hunt-unit" value=${unit.OBJECTID}>Zoom</button></li>`;
 
 module.exports = (props) => {
   const huntableUnits = props.units.filter(huntable);

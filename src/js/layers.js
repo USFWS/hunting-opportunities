@@ -37,7 +37,6 @@ const huntUnits = esri.featureLayer({
       // Get info on huntable species, append it to info about the hunt unit
       getRelatedHuntUnits(e.target.feature.id)
         .then((unit) => {
-          console.log(unit);
           getRelatedHuntableSpecies(unit.OBJECTID).then((species) => {
             emitter.emit('click:huntunit', {
               ...feature.properties,
