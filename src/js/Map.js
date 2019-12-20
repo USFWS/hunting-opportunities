@@ -1,6 +1,5 @@
 const L = require('leaflet');
 
-const helpers = require('./helpers');
 const emitter = require('./emitter');
 const layers = require('./layers');
 const icons = require('./icons');
@@ -29,7 +28,7 @@ const Map = function (opts) {
   this.map = L.map('map', { zoomControl: false }).fitBounds(GLOBAL_BOUNDS.init);
   this.data = opts.data;
 
-  this.currentHuntUnit = L.geoJSON(emptyGeojson, {
+  this.currentHuntUnits = L.geoJSON(emptyGeojson, {
     style: {
       color: '#ff7800',
       fillColor: '#ff8000',
@@ -56,7 +55,7 @@ const Map = function (opts) {
   L.control.layers(layers.basemaps, {
     'Refuge boundaries': layers.refuges,
     'Refuge amenities': layers.amenities,
-    'Current hunt unit': this.currentHuntUnit,
+    'Current hunt unit': this.currentHuntUnits,
     'Hunt units': layers.huntUnits,
   }).addTo(this.map);
   L.control.zoom({ position: 'topright' }).addTo(this.map);
@@ -67,14 +66,24 @@ const Map = function (opts) {
     this.map.flyTo(coordinates, 12, { ...paddingOptions });
   });
   emitter.on('zoom:unit', (unit) => {
-    this.currentHuntUnit.clearLayers();
-    this.currentHuntUnit.addData({ ...emptyGeojson, features: [unit] });
-    this.map.flyToBounds(this.currentHuntUnit.getBounds(), { ...paddingOptions });
+    this.currentHuntUnits.clearLayers();
+    this.currentHuntUnits.addData({ ...emptyGeojson, features: [unit] });
+    this.map.flyToBounds(this.currentHuntUnits.getBounds(), { ...paddingOptions });
   });
   emitter.on('render:results', (features) => {
-    this.filtered.clearLayers();
-    this.filtered.addData({ ...emptyGeojson, features });
-    const bounds = this.filtered.getBounds();
+    const data = { ...emptyGeojson, features };
+    const bounds = L.geoJSON(data).getBounds();
+    const featureType = features[0].geometry.type;
+
+    if (featureType === 'Point') {
+      this.currentHuntUnits.clearLayers();
+      this.filtered.clearLayers();
+      this.filtered.addData(data);
+    } else if (featureType === 'Polygon' || featureType === 'MultiPolygon') {
+      this.filtered.clearLayers();
+      this.currentHuntUnits.clearLayers();
+      this.currentHuntUnits.addData(data);
+    }
     if (bounds) {
       this.map.fitBounds(bounds, {
         paddingTopLeft: [375, 50],

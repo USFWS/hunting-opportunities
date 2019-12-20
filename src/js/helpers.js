@@ -42,6 +42,7 @@ const sortByName = (a, b) => {
 const findRefugeByName = (name, data) => data.find((r) => r.properties.OrgName === name);
 
 const featuresToBounds = (features) => {
+  console.log(features);
   if (!features[0].geometry) return null;
   return features.reduce(
     (bounds, feature) => {

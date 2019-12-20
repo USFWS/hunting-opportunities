@@ -45,10 +45,13 @@
     "esri-leaflet-renderers": "^2.0.6",
     "flatten": "^1.0.3",
     "format-thousands": "^1.1.1",
+    "install": "^0.13.0",
     "leaflet": "^1.6.0",
     "leaflet-knn": "^0.1.0",
     "madison": "^2.0.0",
+    "npm": "^6.13.4",
     "query-string": "^6.9.0",
+    "terraformer-arcgis-parser": "^1.1.0",
     "to-title-case": "^1.0.0"
   }
 }

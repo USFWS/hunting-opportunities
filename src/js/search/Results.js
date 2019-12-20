@@ -36,14 +36,14 @@ const Results = function (opts) {
     const refuge = getByOrgCode(props.OrgCode);
 
     Promise.all([huntUnits, refuge]).then(([units, facility]) => {
-      this.content.innerHTML = templates.refuge({
-        ...props,
-        physAdd: helpers.titleCase(facility.physAdd1),
-        physCity: helpers.titleCase(facility.physCity),
-        physZip: facility.physZip,
-        physState: helpers.getStateName(facility.physStateAbbr),
-        units,
-      });
+      this.render([{
+        ...facility,
+        properties: {
+          ...props,
+          ...facility.properties,
+          units,
+        },
+      }], templates.refuge);
     });
   });
 
