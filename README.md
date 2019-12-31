@@ -1,6 +1,6 @@
 # Hunting Opportunities Mapper
 
-An interactive web map of hunting opportunities on U.S. Fish and Wildlife Service lands.
+An interactive web map of hunting opportunities on U.S. Fish and Wildlife Service lands. This mapper is currently posted to the U.S. Fish and Wildlife Service's intranet. Once the website is ready for prime time it will replace the map on [fws.gov/refuges/hunting](https://www.fws.gov/refuges/hunting/).
 
 ## Data Layers
 
