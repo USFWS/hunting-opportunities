@@ -19,7 +19,7 @@ const paddingOptions = {
 
 const onEachFeature = (feat, layer) => {
   const props = feat.properties;
-  layer.bindPopup(`<p><strong><a href="${props.URL}">${props.OrgName}</a></strong></p>`);
+  layer.bindPopup(`<p><strong><a href="${props.URL}" target="_blank">${props.OrgName}</a></strong></p>`);
   layer.on('mouseover', () => layer.openPopup());
   layer.on('click', () => emitter.emit('click:refuge', props));
 };
