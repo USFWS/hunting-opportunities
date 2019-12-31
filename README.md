@@ -12,6 +12,10 @@ An interactive web map of hunting opportunities on U.S. Fish and Wildlife Servic
 
 [The Service's national hunting and fishing opportunities layer](https://fws.maps.arcgis.com/home/item.html?id=3cd79202923141aca12ec8025f001aaf) depicts a single point for all lands and waters administered by the U.S. Fish and Wildlife Service (USFWS) in North America, U.S. Trust Territories and Possessions where hunting and fishing opportunities exist.
 
+### FWS Visitors Services Amenities
+
+This [visitor services dataset](https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_National_Visitor_Service_Amenities_View/FeatureServer/0) contains those refuge features and assets that identify public access, assistance, information, recreation, and enjoyment locations.
+
 ### CMT API
 
 The [Corporate Master Table (CMT)](https://intranet.fws.gov/cmt/HelpFiles/14_getOrgsGeo.htm) includes information on Service facilities, namely their physical mailing address. Since this information is not included in the hunting database we need to fire off a query in order to display this information alongside data from the hunting feature services. The CMT is likely to be replaced when the new national website built on Drupal is launched.
