@@ -16,7 +16,6 @@ const getHuntUnitByObjectId = (id) => {
   const API_URL = `${HUNT_UNIT_URL}query?objectIds=${id}&outFields=*&f=pgeojson`;
   return fetch(API_URL)
     .then((res) => res.json())
-    .then((data) => { console.log(data); return data; })
     .then((data) => data.features[0])
     .catch(console.log);
 };
