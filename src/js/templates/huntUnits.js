@@ -3,8 +3,9 @@ const matchesStateRegs = (val) => val.toLowerCase() === 'state regulations apply
 const createListItem = (o) => {
   const props = o.properties;
   const regs = [props.MethodOfTake, props.DateTime, props.BagLimits].map(matchesStateRegs);
+  console.log(props);
   return `
-    ${props.URL ? `<h3><a href="${props.URL}"> ${props.OrgName} in ${props.State}</a></h3>` : ''}
+    ${props.URL ? `<h3><a href="${props.URL}" target="_blank"> ${props.OrgName} in ${props.State}</a></h3>` : ''}
     <p class="hunt-unit-info">Hunt unit: ${props.HuntUnit}</p>
     ${props.OBJECTID ? `<button class="zoom-to-hunt-unit" value="${props.OBJECTID}">Zoom</button>` : ''}
     <ul class="huntable-species-list">
