@@ -20,15 +20,6 @@ const getHuntUnitByObjectId = (id) => {
     .catch(console.log);
 };
 
-const getRelatedHuntUnits = (objectIDs) => {
-  const API_URL = `${SPECIES_TABLE_URL}queryRelatedRecords?outFields=*&f=pjson&objectIds=${objectIDs}`;
-  return fetch(API_URL)
-    .then((res) => res.json())
-    .then((data) => data.relatedRecordGroups[0]) // do we need more than one related record here?
-    .then((result) => (result ? result.relatedRecords[0].attributes : []))
-    .catch(console.log);
-};
-
 const getRelatedHuntableSpecies = (objectIDs) => {
   const API_URL = `${HUNT_UNIT_URL}queryRelatedRecords?outFields=*&f=pjson&objectIds=${objectIDs}`;
   return fetch(API_URL)
@@ -89,7 +80,6 @@ const combineSpeciesAndHuntUnit = (huntData) => huntData.species.map((s) => {
 module.exports = {
   getHuntUnitsByOrgCode,
   getHuntUnitByObjectId,
-  getRelatedHuntUnits,
   getRelatedHuntableSpecies,
   getUniqueHuntableSpecies,
   getHuntableSpecies,
