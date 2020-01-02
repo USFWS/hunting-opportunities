@@ -27,13 +27,10 @@ const createListItem = (o) => {
   </li > `;
 };
 
-const template = (offices) => {
-  console.log(offices);
-  return `
-    <ul class="search-results">
-      ${offices.sort(helpers.sortByName).map(createListItem).join('')}
-    </ul>
-  `;
-};
+const template = (offices) => `
+  <ul class="search-results">
+    ${offices.sort(helpers.sortByName).map(createListItem).join('')}
+  </ul>
+`;
 
 module.exports = template;

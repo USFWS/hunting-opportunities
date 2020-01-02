@@ -1,25 +1,21 @@
-$blue: #0055af;
+@import 'normalize';
+@import 'fonts';
 
-@font-face {
-  font-family: "Merriweather";
-  src: url("https://www.fws.gov/refuges/fonts/merriweather-bold-webfont.woff2") format("woff2"),
-    url("https://www.fws.gov/refuges/fonts/merriweather-bold-webfont.woff") format("woff"),
-    url("https://www.fws.gov/refuges/fonts/merriweather-bold-webfont.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
+$blue: #0f4c81;
+$orange: #f0af3b;
+$gray: #848484;
 $serif: Merriweather, Georgia, Verdana, serif;
+$sans-serif: "Source Sans Pro", sans-serif;
 
 html {
   box-sizing: border-box;
+  font-family: $sans-serif;
 }
 
 h1 {
-  font-family: Merriweather, Georgia, serif;
+  font-family: $serif;
 }
 
-@import 'normalize';
 @import 'leaflet';
 @import 'map';
 @import 'search-panel';
