@@ -3,7 +3,7 @@ const esri = require('esri-leaflet');
 require('esri-leaflet-renderers');
 
 const emitter = require('./emitter');
-const { getRelatedHuntUnits, getRelatedHuntableSpecies } = require('./HuntService');
+const { getRelatedHuntableSpecies } = require('./HuntService');
 
 const natGeo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
@@ -34,17 +34,14 @@ const huntUnits = esri.featureLayer({
   minZoom: 10,
   onEachFeature: (feature, layer) => {
     layer.on('click', (e) => {
+      console.log(e.target.feature.id);
       // Get info on huntable species, append it to info about the hunt unit
-      getRelatedHuntUnits(e.target.feature.id)
-        .then((unit) => {
-          getRelatedHuntableSpecies(unit.OBJECTID).then((species) => {
-            emitter.emit('click:huntunit', {
-              ...feature.properties,
-              huntInfo: unit,
-              species,
-            });
-          });
+      getRelatedHuntableSpecies(e.target.feature.id).then((species) => {
+        emitter.emit('click:huntunit', {
+          ...feature.properties,
+          species,
         });
+      });
     });
     // layer.bindPopup(`<p>${feature.properties.HuntUnit}</p>`);
   },
