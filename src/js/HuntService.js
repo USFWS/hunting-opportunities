@@ -2,9 +2,18 @@ const ArcGIS = require('terraformer-arcgis-parser');
 
 const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1/';
 const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/2/';
+const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/';
+
+const getRefugeInfoByOrgCode = (orgCode) => {
+  const API_URL = `${HUNTING_OPP_URL}query?outFields=*&f=pgeojson&where=OrgCode=${orgCode}`;
+  return fetch(API_URL)
+    .then((res) => res.json())
+    .then((data) => data.features[0].properties)
+    .catch(console.log);
+};
 
 const getHuntUnitsByOrgCode = (orgCode) => {
-  const API_URL = `${HUNT_UNIT_URL}query?where=OrgCode+%3D+${orgCode}&outFields=*&f=pgeojson`;
+  const API_URL = `${HUNT_UNIT_URL}query?outFields=*&f=pgeojson&where=OrgCode=${orgCode}`;
   return fetch(API_URL)
     .then((res) => res.json())
     .then((geojson) => geojson.features)
@@ -86,4 +95,5 @@ module.exports = {
   getHuntUnitFromSpeciesData,
   combineSpeciesAndHuntUnit,
   getSpecialHunts,
+  getRefugeInfoByOrgCode,
 };
