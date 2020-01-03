@@ -38,6 +38,10 @@ const Map = function (opts) {
     },
   }).addTo(this.map);
 
+  this.zipcode = L.geoJSON(emptyGeojson, {
+    onEachFeature: (feat, layer) => layer.bindPopup(`<p>${feat.properties.PO_NAME}, ${feat.properties.STATE}</p>`),
+  }).addTo(this.map);
+
   this.filtered = L.geoJSON(emptyGeojson, {
     onEachFeature,
     pointToLayer: (feat, latlng) => L.marker(latlng, { icon: icons.orangeMarker }),
@@ -62,6 +66,11 @@ const Map = function (opts) {
   L.control.zoom({ position: 'topright' }).addTo(this.map);
 
   emitter.on('set:bounds', (bounds) => this.map.fitBounds(bounds));
+
+  emitter.on('found:zipcode', (geojson) => {
+    this.zipcode.clearLayers();
+    this.zipcode.addData(geojson);
+  });
   emitter.on('zoom:refuge', (refuge) => {
     const coordinates = [...refuge.geometry.coordinates].reverse();
     this.map.flyTo(coordinates, 12, { ...paddingOptions });
