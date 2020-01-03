@@ -21,6 +21,7 @@ const onEachFeature = (feat, layer) => {
   const props = feat.properties;
   layer.bindPopup(`<p><strong><a href="${props.URL}" target="_blank">${props.OrgName}</a></strong></p>`);
   layer.on('mouseover', () => layer.openPopup());
+  layer.on('mouseout', () => layer.closePopup());
   layer.on('click', () => emitter.emit('click:refuge', props));
 };
 
@@ -91,6 +92,32 @@ const Map = function (opts) {
         maxZoom: 12,
       });
     }
+  });
+
+  let lastZoom;
+  this.map.on('zoomend', () => {
+    const zoom = this.map.getZoom();
+    const zoomLimit = 12;
+    if (zoom < zoomLimit && (!lastZoom || lastZoom >= zoomLimit)) {
+      this.map.eachLayer((l) => {
+        if (l.getTooltip) {
+          const toolTip = l.getTooltip();
+          if (toolTip) {
+            this.map.closeTooltip(toolTip);
+          }
+        }
+      });
+    } else {
+      this.map.eachLayer((l) => {
+        if (l.getTooltip) {
+          const toolTip = l.getTooltip();
+          if (toolTip) {
+            this.map.addLayer(toolTip);
+          }
+        }
+      });
+    }
+    lastZoom = zoom;
   });
 };
 
