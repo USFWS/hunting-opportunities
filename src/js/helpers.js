@@ -4,6 +4,7 @@ const madison = require('madison');
 const flatten = require('flatten');
 const titleCase = require('to-title-case');
 const formatThousands = require('format-thousands');
+const groupBy = require('lodash.groupby');
 
 const addOptionsToSelect = (values, select) => {
   values.forEach((value) => {
@@ -63,6 +64,8 @@ const capitalize = (s) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
+const matchesStateRegs = (val) => val.toLowerCase() === 'state regulations apply';
+
 module.exports = {
   flatten,
   unique,
@@ -77,4 +80,6 @@ module.exports = {
   formatThousands,
   formatAcreage,
   capitalize,
+  matchesStateRegs,
+  groupBy,
 };
