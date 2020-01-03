@@ -12,6 +12,10 @@ An interactive web map of hunting opportunities on U.S. Fish and Wildlife Servic
 
 [The Service's national hunting and fishing opportunities layer](https://fws.maps.arcgis.com/home/item.html?id=3cd79202923141aca12ec8025f001aaf) depicts a single point for all lands and waters administered by the U.S. Fish and Wildlife Service (USFWS) in North America, U.S. Trust Territories and Possessions where hunting and fishing opportunities exist.
 
+### Zipcode Service
+
+[U.S. ZIP Code Points](https://www.arcgis.com/home/item.html?id=dc123f738bf846779c49db6472f82a4b) represents the five-digit U.S. ZIP Code areas as points, plus all ZIP Codes that have no associated area such as post office box ZIP Codes and single site ZIP Codes (government, building, or large volume customer). We use this service to get the user’s location and compare it against the nearest hunting opportunities.
+
 ### FWS Visitors Services Amenities
 
 This [visitor services dataset](https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_National_Visitor_Service_Amenities_View/FeatureServer/0) contains those refuge features and assets that identify public access, assistance, information, recreation, and enjoyment locations.
