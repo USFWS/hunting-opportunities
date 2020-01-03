@@ -291,3 +291,14 @@ input[type="radio"]:not(:checked) ~ label {
 .search-results-content:empty {
   padding: 0;
 }
+
+.veteran-zoom-to {
+  display: block;
+  margin: .25rem auto;
+}
+
+.zoom-to-hunt-unit {
+  background: none;
+  border: none;
+  padding: 0;
+}
