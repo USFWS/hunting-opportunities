@@ -33,8 +33,8 @@ const huntUnits = esri.featureLayer({
   url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1',
   minZoom: 10,
   onEachFeature: (feature, layer) => {
+    layer.bindTooltip(feature.properties.HuntUnit, { permanent: true });
     layer.on('click', (e) => {
-      console.log(e.target.feature.id);
       // Get info on huntable species, append it to info about the hunt unit
       getRelatedHuntableSpecies(e.target.feature.id).then((species) => {
         emitter.emit('click:huntunit', {
