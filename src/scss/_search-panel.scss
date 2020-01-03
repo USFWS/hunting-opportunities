@@ -21,6 +21,10 @@
   top: 13px;
   z-index: 1000;
 
+  h3 {
+    margin-top: 2.5rem;
+  }
+
   h2,
   h3,
   .refuge-address,
@@ -35,13 +39,42 @@
   }
 }
 
+.hunt-unit-info {
+  display: flex;
+  justify-content: flex-end;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li:first-child {
+    text-align: left;
+    justify-self: flex-start;
+    flex-basis: 80%;
+  }
+
+  li {
+    flex: 1 1 10%;
+
+    a,
+    button {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
 .search-results-content.closed {
   max-height: 0;
   padding: 0;
 }
 
-.huntable-species-list li {
-  display: list-item !important;
+.huntable-species-list {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+
+  li {
+    display: list-item !important;
+  }
 }
 
 .toggle-results {
@@ -55,6 +88,17 @@
   &[aria-hidden="true"] {
     display: none;
   }
+}
+
+.facility-icon {
+  height: 25px;
+  width: 25px;
+}
+
+.hidden-button {
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 .search-results {
@@ -180,6 +224,8 @@ input[type="search"] {
 }
 
 .form-group {
+  text-align: center;
+
   &[aria-hidden=true] {
     display: none;
   }
