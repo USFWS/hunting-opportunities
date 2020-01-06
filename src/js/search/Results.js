@@ -68,8 +68,8 @@ const Results = function (opts) {
 
   emitter.on('search:facility', (query) => {
     const results = this.find(query);
-    this.message.innerHTML = 'Search by facility name or state';
     this.activateInput(this.inputs.textInput);
+    this.message.innerHTML = 'Search by station name or state';
     this.render(results, templates.officeList);
   });
 
