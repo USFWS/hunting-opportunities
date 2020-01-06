@@ -64,7 +64,7 @@
 }
 
 .search-results-content.closed {
-  max-height: 0;
+  max-height: 10px;
   padding: 0;
 }
 
@@ -78,11 +78,15 @@
 }
 
 .toggle-results {
+  background: $blue;
   border-radius: 5px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  background: #e5e5e5;
+  bottom: 0;
+  color: white;
   display: block;
+  left: 0;
+  position: absolute;
   width: 100%;
 
   &[aria-hidden="true"] {
