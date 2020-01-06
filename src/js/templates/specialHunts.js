@@ -9,7 +9,7 @@ const createHuntItem = ({ properties: hunt }) => {
     <h3>${hunt.OrgName}</h3>
     <p class="hunt-unit-info">${hunt.Label}</p>
     <button class="zoom-to-hunt-unit veteran-zoom-to" value="${hunt.OBJECTID}">
-      <img class="facility-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge"/>
+      <img class="zoom-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge"/>
     </button>
     <ul class="huntable-species-list">
       ${regs.every((r) => r === true) ? '<li>All state regulations apply</li>' : ''}
