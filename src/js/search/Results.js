@@ -129,14 +129,23 @@ Results.prototype.empty = function () {
 };
 
 Results.prototype.handleResultClick = function (e) {
-  if (e.target.className === 'facility-icon') {
+  const { className } = e.target;
+  if (className === 'facility-icon') {
     const facilityName = closest(e.target, '.facility-info').querySelector('.facility-name').textContent;
     const refuge = helpers.findRefugeByName(facilityName, this.data);
     emitter.emit('zoom:refuge', refuge);
   }
 
-  if (e.target.className === 'zoom-to-hunt-unit') {
-    HuntService.getHuntUnitByObjectId(e.target.value)
+  if (className === 'zoom-to-hunt-unit') {
+    HuntService.getHuntUnitByObjectIds(e.target.value)
+      .then((data) => data[0])
+      .then((unit) => emitter.emit('zoom:unit', unit));
+  }
+
+  if (className === 'zoom-icon') {
+    const objectId = closest(e.target, '.zoom-to-hunt-unit').value;
+    HuntService.getHuntUnitByObjectIds(objectId)
+      .then((data) => data[0])
       .then((unit) => emitter.emit('zoom:unit', unit));
   }
 };
