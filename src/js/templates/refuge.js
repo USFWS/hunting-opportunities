@@ -2,7 +2,13 @@ const { formatAcreage, titleCase } = require('../helpers');
 
 const huntable = (unit) => unit.Huntable.toLowerCase() === 'yes';
 
-const createListItem = (unit) => `<li>${unit.HuntUnit} (${formatAcreage(unit.Acreage)} acres) <button class="zoom-to-hunt-unit" value=${unit.OBJECTID}>Zoom</button></li>`;
+const createListItem = (unit) => `
+  <li>
+    ${unit.HuntUnit} (${formatAcreage(unit.Acreage)} acres)
+    <button class="zoom-to-hunt-unit" value=${unit.OBJECTID}>
+      <img class="zoom-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge">
+    </button>
+  </li>`;
 
 module.exports = (facilities) => {
   const props = facilities[0].properties;
