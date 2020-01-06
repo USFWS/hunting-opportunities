@@ -6,15 +6,15 @@ const createHuntUnitItem = ({ properties: props }) => {
     <ul class="hunt-unit-info">
       <li>Hunt unit: ${props.HuntUnit}</li>
       <li>
-      ${props.OBJECTID ?
-        `<button class="zoom-to-office hidden-button" value="${props.OBJECTID}">
-          <img class="facility-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge">
+      ${props.OBJECTID
+      ? `<button class="zoom-to-hunt-unit hidden-button" value="${props.OBJECTID}">
+          <img class="zoom-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge">
         </button>`
-        : '' }
+      : ''}
       </li>
       <li>
         <a href="${props.URL}" target="_blank">
-          <img class="facility-icon" src="./images/world.svg" alt="A world icon; click to visit the refuge's website" title="Visit refuge website" />
+          <img class="website-icon" src="./images/world.svg" alt="A world icon; click to visit the refuge's website" title="Visit refuge website" />
         </a>
       </li>
     </ul>
@@ -29,7 +29,8 @@ const createHuntUnitItem = ({ properties: props }) => {
 };
 
 const createFacilityItem = (name, opps) => {
-  const props = opps[0].properties;
+  const props = opps[0] ? opps[0].properties : null;
+  if (!props) return;
   return `
     ${props.URL ? `<h3><a href="${props.URL}" target="_blank"> ${name} in ${props.State}</a></h3>` : ''}
     ${opps.map(createHuntUnitItem).join('')}
