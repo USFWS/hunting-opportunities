@@ -21,11 +21,11 @@ const getHuntUnitsByOrgCode = (orgCode) => {
     .catch(console.log);
 };
 
-const getHuntUnitByObjectId = (id) => {
-  const API_URL = `${HUNT_UNIT_URL}query?objectIds=${id}&outFields=*&f=pgeojson`;
+const getHuntUnitByObjectIds = (objectIds) => {
+  const API_URL = `${HUNT_UNIT_URL}query?objectIds=${objectIds}&outFields=*&f=pgeojson`;
   return fetch(API_URL)
     .then((res) => res.json())
-    .then((data) => data.features[0])
+    .then((data) => data.features)
     .catch(console.log);
 };
 
@@ -58,7 +58,7 @@ const getHuntableSpecies = (species) => {
 };
 
 const getHuntUnitFromSpeciesData = (objectIds) => {
-  const API_URL = `${SPECIES_TABLE_URL}queryRelatedRecords?objectIds=${objectIds}&outFields=*&f=pjson&outSR=4326`;
+  const API_URL = `${SPECIES_TABLE_URL}queryRelatedRecords?objectIds=${objectIds}&f=pjson&returnGeometry=false&outFields=*`;
   return fetch(API_URL)
     .then((res) => res.json())
     .then((data) => data.relatedRecordGroups)
@@ -76,6 +76,10 @@ const getSpecialHunts = (query) => {
 
 const combineSpeciesAndHuntUnit = (huntData) => huntData.species.map((s) => {
   const huntUnit = huntData.units.find((u) => u.objectId === s.OBJECTID);
+  if (!huntUnit) {
+    console.log(s.OBJECTID);
+    return null;
+  }
   const geojson = ArcGIS.parse(huntUnit.relatedRecords[0]);
   return {
     ...geojson,
@@ -88,7 +92,7 @@ const combineSpeciesAndHuntUnit = (huntData) => huntData.species.map((s) => {
 
 module.exports = {
   getHuntUnitsByOrgCode,
-  getHuntUnitByObjectId,
+  getHuntUnitByObjectIds,
   getRelatedHuntableSpecies,
   getUniqueHuntableSpecies,
   getHuntableSpecies,
