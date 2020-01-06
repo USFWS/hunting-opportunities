@@ -81,9 +81,10 @@ const Map = function (opts) {
     this.map.flyToBounds(this.currentHuntUnits.getBounds(), { ...paddingOptions });
   });
   emitter.on('render:results', (features) => {
+    if (!features[0].geometry) return false;
     const data = { ...emptyGeojson, features };
     const bounds = L.geoJSON(data).getBounds();
-    const featureType = features[0].geometry.type;
+    const featureType = features[0].geometry ? features[0].geometry.type : null;
 
     if (featureType === 'Point') {
       this.currentHuntUnits.clearLayers();
@@ -94,7 +95,7 @@ const Map = function (opts) {
       this.currentHuntUnits.clearLayers();
       this.currentHuntUnits.addData(data);
     }
-    if (bounds) {
+    if (bounds && featureType) {
       this.map.fitBounds(bounds, {
         paddingTopLeft: [375, 50],
         paddingBottomRight: [50, 50],
