@@ -7,7 +7,7 @@ const Search = function (opts) {
   this.speciesSelect = opts.speciesSelect;
   this.specialSelect = opts.specialSelect;
   this.radios = opts.radios;
-  this.state = 'alphabetical';
+  this.state = 'facility';
   this.specialHunts = ['veteran', 'youth', 'disabled', 'mentored'];
 
   emitter.on('query', (query) => { this.input.value = query; });
