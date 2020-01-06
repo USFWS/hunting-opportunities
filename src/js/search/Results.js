@@ -62,7 +62,6 @@ const Results = function (opts) {
       .then(HuntService.combineSpeciesAndHuntUnit)
       .then((results) => {
         this.render(results, templates.specialHunts, query);
-        this.loading.setAttribute('aria-hidden', 'true');
       });
   });
 
@@ -79,6 +78,7 @@ const Results = function (opts) {
   });
 
   emitter.on('search:state', (query) => {
+    this.loading.setAttribute('aria-hidden', 'false');
     const results = this.findByState(query);
     this.activateInput(this.inputs.stateSelect);
     this.render(results, templates.officeList);
@@ -99,7 +99,6 @@ const Results = function (opts) {
       .then(HuntService.combineSpeciesAndHuntUnit)
       .then((results) => {
         this.render(results, templates.huntUnits);
-        this.loading.setAttribute('aria-hidden', 'true');
       });
   });
 };
@@ -180,6 +179,7 @@ Results.prototype.render = function (results, template, query) {
   this.content.innerHTML = template(results, query);
   this.updateLength(results.length);
   this.toggle.setAttribute('aria-hidden', 'false');
+  this.loading.setAttribute('aria-hidden', 'true');
   emitter.emit('render:results', results);
 };
 
