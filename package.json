@@ -4,6 +4,7 @@
   "description": "A map that helps citizens find hunting opportunities on National Wildlife Refuges.",
   "main": "index.js",
   "scripts": {
+    "create:dist": "mkdirp dist/js dist/images dist/css dist/fonts",
     "copy:fonts": "ncp src/fonts dist/fonts",
     "serve": "browser-sync start --server --ss dist/ -w",
     "build:js": "browserify src/js/index.js | uglifyjs -mc > dist/js/bundle.js",
@@ -14,8 +15,8 @@
     "watch:styles": "node-sass -w src/scss/styles.scss -o dist/css",
     "build:styles": "node-sass --output-style=compressed src/scss/styles.scss | postcss -u autoprefixer -o dist/css/styles.css",
     "watch": "npm run watch:js & npm run watch:html & npm run watch:styles & npm run serve",
-    "build": "npm run build:js && npm run build:html && npm run build:styles && npm run copy:fonts",
-    "prestart": "npm run build:styles && npm run build:html && npm run copy:fonts",
+    "build": "npm run create:dist && npm run build:js && npm run build:html && npm run build:styles && npm run copy:fonts",
+    "prestart": "npm run create:dist && npm run build:styles && npm run build:html && npm run copy:fonts",
     "start": "npm run watch"
   },
   "keywords": [],
