@@ -15,7 +15,7 @@
   left: 13px;
   max-width: 350px !important;
   max-height: 95vh;
-  overflow-y: scroll;
+  overflow: auto;
   padding: .5rem;
   position: fixed;
   top: 13px;
@@ -82,12 +82,13 @@
   border-radius: 5px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  bottom: 0;
+  bottom: -.5rem;
   color: white;
   display: block;
-  left: 0;
-  position: absolute;
-  width: 100%;
+  left: -.5rem;
+  margin: -2rem;
+  position: sticky;
+  width: calc(100% + 1rem);
 
   &[aria-hidden="true"] {
     display: none;
@@ -105,9 +106,8 @@
   padding: 0;
 }
 
-.search-results {
-  max-height: 70vh;
-  overflow-y: scroll;
+.search-results-content {
+  overflow: hidden;
   margin: 0;
   padding: 0;
   transition: all .3s;
