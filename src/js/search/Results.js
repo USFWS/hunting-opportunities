@@ -32,9 +32,9 @@ const Results = function (opts) {
   });
 
   emitter.on('click:refuge', (props) => {
-    // Shoud combine these with Promise.all to display results from separate requests
     const huntUnits = HuntService.getHuntUnitsByOrgCode(props.OrgCode);
     const refuge = getByOrgCode(props.OrgCode);
+    this.loading.setAttribute('aria-hidden', 'false');
 
     Promise.all([huntUnits, refuge]).then(([units, facility]) => {
       this.render([{
