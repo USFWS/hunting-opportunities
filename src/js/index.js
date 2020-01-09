@@ -3,7 +3,7 @@ const Map = require('./Map');
 const Search = require('./search/Search');
 const Results = require('./search/Results');
 const deepLink = require('./deep-link');
-const { getUniqueHuntableSpecies, getSpecialHunts } = require('./HuntService');
+const { getUniqueHuntableSpecies } = require('./HuntService');
 
 const searchPanel = document.querySelector('.search-panel');
 const form = searchPanel.querySelector('.search-form');
