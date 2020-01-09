@@ -4,6 +4,7 @@
   "description": "A map that helps citizens find hunting opportunities on National Wildlife Refuges.",
   "main": "index.js",
   "scripts": {
+    "copy:fonts": "ncp src/fonts dist/fonts",
     "serve": "browser-sync start --server --ss dist/ -w",
     "build:js": "browserify src/js/index.js | uglifyjs -mc > dist/js/bundle.js",
     "watch:js": "watchify src/js/index.js -dv -o dist/js/bundle.js",
@@ -13,7 +14,8 @@
     "watch:styles": "node-sass -w src/scss/styles.scss -o dist/css",
     "build:styles": "node-sass --output-style=compressed src/scss/styles.scss | postcss -u autoprefixer -o dist/css/styles.css",
     "watch": "npm run watch:js & npm run watch:html & npm run watch:styles & npm run serve",
-    "build": "npm run build:js && npm run build:html && npm run build:styles",
+    "build": "npm run build:js && npm run build:html && npm run build:styles && npm run copy:fonts",
+    "prestart": "npm run build:styles && npm run build:html && npm run copy:fonts",
     "start": "npm run watch"
   },
   "keywords": [],
@@ -28,6 +30,7 @@
     "eslint-plugin-import": "^2.18.2",
     "html-minifier-cli": "^0.1.0",
     "mkdirp": "^0.5.1",
+    "ncp": "^2.0.0",
     "node-sass": "^4.13.0",
     "postcss": "^7.0.23",
     "postcss-cli": "^6.1.3",
