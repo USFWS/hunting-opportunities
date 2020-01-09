@@ -6,6 +6,8 @@
   "scripts": {
     "create:dist": "mkdirp dist/js dist/images dist/css dist/fonts",
     "copy:fonts": "ncp src/fonts dist/fonts",
+    "copy:leaflet": "ncp src/images/leaflet dist/css/images",
+    "copy": "npm run copy:fonts && npm run copy:leaflet",
     "serve": "browser-sync start --server --ss dist/ -w",
     "svgo": "svgo -f src/images/svg dist/images",
     "build:js": "browserify src/js/index.js | uglifyjs -mc > dist/js/bundle.js",
@@ -16,8 +18,8 @@
     "watch:styles": "node-sass -w src/scss/styles.scss -o dist/css",
     "build:styles": "node-sass --output-style=compressed src/scss/styles.scss | postcss -u autoprefixer -o dist/css/styles.css",
     "watch": "npm run watch:js & npm run watch:html & npm run watch:styles & npm run serve",
-    "build": "npm run create:dist && npm run build:js && npm run build:html && npm run build:styles && npm run copy:fonts && npm run svgo",
-    "prestart": "npm run create:dist && npm run build:styles && npm run build:html && npm run copy:fonts && npm run svgo",
+    "build": "npm run create:dist && npm run build:js && npm run build:html && npm run build:styles && npm run copy && npm run svgo",
+    "prestart": "npm run create:dist && npm run build:styles && npm run build:html && npm run copy && npm run svgo",
     "start": "npm run watch"
   },
   "keywords": [],
