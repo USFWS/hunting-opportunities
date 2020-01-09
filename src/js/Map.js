@@ -50,6 +50,11 @@ const Map = function (opts) {
   this.markers = L.geoJSON(this.data, {
     onEachFeature,
     pointToLayer: (feat, latlng) => L.marker(latlng, { icon: icons.blueMarker }),
+    filter: (feat) => {
+      const type = feat.properties.OrgType;
+      if (type === 'WMD' || type === 'CA') return false;
+      return true;
+    },
   }).addTo(this.map);
 
   layers.natGeo.addTo(this.map);
