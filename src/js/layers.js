@@ -36,7 +36,16 @@ const amenities = esri.featureLayer({
 const huntUnits = esri.featureLayer({
   url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1',
   minZoom: 10,
+  style: (feat) => {
+    switch (feat.properties.Huntable) {
+      case 'No':
+        return { fillColor: '#FF6666', color: '#eee', weight: 5 };
+      default:
+        return { fillColor: '#0f4c81', color: '#eee', weight: 5 };
+    }
+  },
   onEachFeature: (feature, layer) => {
+    console.log(feature.properties);
     layer.bindTooltip(feature.properties.HuntUnit, { permanent: true });
     layer.on('click', (e) => {
       // Get info on huntable species, append it to info about the hunt unit
