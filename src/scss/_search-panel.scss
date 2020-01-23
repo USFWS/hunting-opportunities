@@ -306,7 +306,9 @@ input[type="radio"]:not(:checked) ~ label {
   border: none;
   padding: 0;
 
-  img {
+  img,
+  svg {
+    height: 25px;
     width: 25px;
   }
 }
