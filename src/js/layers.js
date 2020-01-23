@@ -53,6 +53,7 @@ const huntUnits = esri.featureLayer({
 
 const basemaps = {
   'National Geographic': natGeo,
+  Imagery: imagery,
   'Gray Canvas': grayCanvas,
 };
 
