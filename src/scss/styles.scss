@@ -16,6 +16,10 @@ h1 {
   font-family: $serif;
 }
 
+.svg-sprite {
+  height: 0;
+}
+
 @import 'leaflet';
 @import 'map';
 @import 'search-panel';

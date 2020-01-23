@@ -8,13 +8,13 @@ const createHuntUnitItem = ({ properties: props }) => {
       <li>
       ${props.OBJECTID
       ? `<button class="zoom-to-hunt-unit hidden-button" value="${props.OBJECTID}">
-          <img class="zoom-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge">
+          <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
         </button>`
       : ''}
       </li>
       <li>
         <a href="${props.URL}" target="_blank">
-          <img class="website-icon" src="./images/world.svg" alt="A world icon; click to visit the refuge's website" title="Visit refuge website" />
+          <svg class="website-icon"><use xlink:href="#world"></use></svg>
         </a>
       </li>
     </ul>

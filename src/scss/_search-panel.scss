@@ -171,8 +171,10 @@
       background-color: #ccc;
     }
 
-    svg {
-      padding: .75rem;
+    .orange-marker {
+      align-self: center;
+      height: 35px;
+      padding-right: 1rem;
       width: 35px;
     }
   }
@@ -301,12 +303,20 @@ input[type="radio"]:not(:checked) ~ label {
   margin: .25rem auto;
 }
 
+.website-icon,
+.zoom-icon {
+  height: 25px;
+  width: 25px;
+}
+
 .zoom-to-hunt-unit {
   background: none;
   border: none;
   padding: 0;
 
-  img {
+  img,
+  svg {
+    height: 25px;
     width: 25px;
   }
 }
