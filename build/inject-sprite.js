@@ -5,7 +5,7 @@ const readFileAsync = promisify(fs.readFile);
 
 const cheerio = require('cheerio');
 
-const spritePath = 'src/images/svg/sprite.svg';
+const spritePath = 'dist/images/svg/sprite.svg';
 const htmlPath = 'src/html/index.html';
 const htmlOutPath = 'dist/index.html';
 

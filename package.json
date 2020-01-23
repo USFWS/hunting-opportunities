@@ -11,7 +11,7 @@
     "serve": "browser-sync start --server --ss dist/ -w",
     "svg": "npm run svg:optimize && npm run svg:sprite && npm run svg:inject",
     "svg:optimize": "svgo -f src/images/svg dist/images/svg",
-    "svg:sprite": "svg-sprite-generate -d dist/images/svg/ -o src/images/svg/sprite.svg",
+    "svg:sprite": "svg-sprite-generate -d dist/images/svg/ -o dist/images/svg/sprite.svg",
     "svg:inject": "node build/inject-sprite.js",
     "build:js": "browserify src/js/index.js | uglifyjs -mc > dist/js/bundle.js",
     "watch:js": "watchify src/js/index.js -dv -o dist/js/bundle.js",
