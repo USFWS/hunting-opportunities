@@ -282,6 +282,10 @@ input[type="radio"]:not(:checked) ~ label {
   }
 }
 
+.search-results {
+  padding: 0;
+}
+
 .search-results-length {
   color: $blue;
   font-style: italic;
