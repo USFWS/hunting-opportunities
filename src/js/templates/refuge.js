@@ -6,7 +6,7 @@ const createListItem = (unit) => `
   <li>
     ${unit.HuntUnit} (${formatAcreage(unit.Acreage)} acres)
     <button class="zoom-to-hunt-unit" value=${unit.OBJECTID}>
-      <img class="zoom-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge">
+      <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
     </button>
   </li>`;
 
