@@ -21,8 +21,8 @@
     "watch:styles": "node-sass -w src/scss/styles.scss -o dist/css",
     "build:styles": "node-sass --output-style=compressed src/scss/styles.scss | postcss -u autoprefixer -o dist/css/styles.css",
     "watch": "npm run watch:js & npm run watch:html & npm run watch:styles & npm run serve",
-    "build": "npm run create:dist && npm run build:js && npm run build:html && npm run build:styles && npm run copy && npm run svgo",
-    "prestart": "npm run create:dist && npm run build:styles && npm run build:html && npm run copy && npm run svgo",
+    "build": "npm run create:dist && npm run build:js && npm run build:html && npm run build:styles && npm run copy && npm run svg",
+    "prestart": "npm run create:dist && npm run build:styles && npm run build:html && npm run copy && npm run svg",
     "start": "npm run watch"
   },
   "keywords": [],
