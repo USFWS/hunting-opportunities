@@ -12,7 +12,6 @@ const createHuntItem = ({ properties: hunt }) => {
       <img class="zoom-icon" src="./images/zoom.svg" alt="A zoom icon; click to zoom the map to the refuge's location" title="Zoom to Refuge"/>
     </button>
     <ul class="huntable-species-list">
-      ${regs.every((r) => r === true) ? '<li>All state regulations apply</li>' : ''}
       ${regs[0] ? '' : `<li>Method of take: ${hunt.MethodOfTake}</li>`}
       ${regs[1] ? '' : `<li>Date & times: ${hunt.DateTime}</li>`}
       ${regs[2] ? '' : `<li>Bag limit: ${hunt.BagLimits}</li>`}

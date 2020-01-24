@@ -7,10 +7,10 @@ const createHuntUnitItem = ({ properties: props }) => {
       <li>Hunt unit: ${props.HuntUnit}</li>
       <li>
       ${props.OBJECTID
-      ? `<button class="zoom-to-hunt-unit hidden-button" value="${props.OBJECTID}">
+    ? `<button class="zoom-to-hunt-unit hidden-button" value="${props.OBJECTID}">
           <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
         </button>`
-      : ''}
+    : ''}
       </li>
       <li>
         <a href="${props.URL}" target="_blank">
@@ -20,7 +20,6 @@ const createHuntUnitItem = ({ properties: props }) => {
     </ul>
 
     <ul class="huntable-species-list">
-      ${regs.every((r) => r === true) ? '<li>All state regulations apply</li>' : ''}
       ${regs[0] ? '' : `<li>Method of take: ${props.MethodOfTake}</li>`}
       ${regs[1] ? '' : `<li>Date & times: ${props.DateTime}</li>`}
       ${regs[2] ? '' : `<li>Bag limit: ${props.BagLimits}</li>`}
