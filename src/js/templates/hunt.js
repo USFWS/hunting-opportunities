@@ -5,7 +5,6 @@ const createListItem = (info) => {
   return `
     <h4><strong>${info.Species}</strong></h4>
     <ul class="huntable-species-list">
-      ${regs.every((r) => r === true) ? '<li>All state regulations apply</li>' : ''}
       ${regs[0] ? '' : `<li>Method of take: <a href="${info.url}">${info.MethodOfTake}</a></li>`}
       ${regs[1] ? '' : `<li>Date & times: <a href="${info.url}">${info.DateTime}</a></li>`}
       ${regs[2] ? '' : `<li>Bag limit: <a href="${info.url}">${info.BagLimits}</a></li>`}
@@ -22,5 +21,5 @@ module.exports = (props) => `
   ${props.species
     .map((species) => createListItem({ ...species, url: props.UrlHunting }))
     .join('')
-  }
+}
 `;
