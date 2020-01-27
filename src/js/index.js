@@ -21,13 +21,14 @@ const toggleResults = searchPanel.querySelector('.toggle-results');
 
 // Start the app
 const init = () => {
-  const API_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/query?where=1+%3D+1&outFields=*&f=pgeojson&token=';
+  const API_URL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/query?where=OrgType%20!%3D%20'WMD'%20AND%20OrgType%20!%3D%20'RAO'%20AND%20OrgType%20!%3D%20'CA'&outFields=*&f=pgeojson&token=";
 
   getUniqueHuntableSpecies().then((res) => helpers.addOptionsToSelect(res, speciesSelect));
 
   fetch(API_URL)
     .then((res) => res.json())
     .then((data) => {
+      console.log(data.features.length);
       const geodata = { ...data, features: data.features.map(helpers.updateFeatureStateName) };
       const states = helpers.flatten(geodata.features
         .map((f) => f.properties.State_Array))
