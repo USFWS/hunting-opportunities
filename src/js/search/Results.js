@@ -141,6 +141,12 @@ Results.prototype.handleResultClick = function (e) {
       .then((unit) => emitter.emit('zoom:unit', unit));
   }
 
+  if (classList.contains('zoom-to-refuge')) {
+    const orgCode = e.target.parentNode.value;
+    HuntService.getRefugeInfoByOrgCode(orgCode)
+      .then((refuge) => emitter.emit('zoom:refuge', refuge));
+  }
+
   if (classList.contains('zoom-icon')) {
     const objectId = closest(e.target, '.zoom-to-hunt-unit').value;
     HuntService.getHuntUnitByObjectIds(objectId)
