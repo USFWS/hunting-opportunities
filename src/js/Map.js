@@ -4,6 +4,7 @@ const emitter = require('./emitter');
 const layers = require('./layers');
 const icons = require('./icons');
 const GLOBAL_BOUNDS = require('./bounds');
+const { getHuntUnitByObjectIds } = require('./HuntService');
 
 const emptyGeojson = {
   type: 'FeatureCollection',
@@ -110,6 +111,10 @@ const Map = function (opts) {
         maxZoom: 12,
       });
     }
+  });
+
+  emitter.on('click:huntunit', (data) => {
+    getHuntUnitByObjectIds(data.OBJECTID).then((units) => emitter.emit('zoom:unit', units[0]));
   });
 
   let lastZoom;
