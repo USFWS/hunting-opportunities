@@ -29,14 +29,8 @@ const Map = function (opts) {
   this.map = L.map('map', { zoomControl: false }).fitBounds(GLOBAL_BOUNDS.init);
   this.data = opts.data;
 
-  this.currentHuntUnits = L.geoJSON(emptyGeojson, {
-    style: {
-      color: '#ff7800',
-      fillColor: '#ff8000',
-      fill: true,
-      weight: 10,
-    },
-  }).addTo(this.map);
+  this.map.createPane('hunt-units');
+  this.map.getPane('hunt-units').style.zIndex = 300;
 
   this.zipcode = L.geoJSON(emptyGeojson, {
     onEachFeature: (feat, layer) => layer.bindPopup(`<p>${feat.properties.PO_NAME}, ${feat.properties.STATE}</p>`),
@@ -54,6 +48,15 @@ const Map = function (opts) {
       const type = feat.properties.OrgType;
       if (type === 'WMD' || type === 'CA') return false;
       return true;
+    },
+  }).addTo(this.map);
+
+  this.currentHuntUnits = L.geoJSON(emptyGeojson, {
+    style: {
+      color: '#ff7800',
+      fillColor: '#ff8000',
+      fill: true,
+      weight: 10,
     },
   }).addTo(this.map);
 
