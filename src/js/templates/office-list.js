@@ -13,8 +13,8 @@ const createListItem = (o) => {
       <ul class="facility-links">
         <li><p class="facility-location">${props.State_Label}</p></li>
         <li>
-          <button class="zoom-to-hunt-unit hidden-button" value="${props.OBJECTID}">
-            <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
+          <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
+            <svg class="zoom-to-refuge"><use xlink:href="#zoom"></use></svg>
           </button>
         </li>
         <li>
