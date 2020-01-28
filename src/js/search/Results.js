@@ -128,20 +128,20 @@ Results.prototype.empty = function () {
 };
 
 Results.prototype.handleResultClick = function (e) {
-  const { className } = e.target;
-  if (className === 'facility-icon') {
+  const { classList } = e.target;
+  if (classList.contains('facility-icon')) {
     const facilityName = closest(e.target, '.facility-info').querySelector('.facility-name').textContent;
     const refuge = helpers.findRefugeByName(facilityName, this.data);
     emitter.emit('zoom:refuge', refuge);
   }
 
-  if (className === 'zoom-to-hunt-unit') {
+  if (classList.contains('zoom-to-hunt-unit')) {
     HuntService.getHuntUnitByObjectIds(e.target.value)
       .then((data) => data[0])
       .then((unit) => emitter.emit('zoom:unit', unit));
   }
 
-  if (className === 'zoom-icon') {
+  if (classList.contains('zoom-icon')) {
     const objectId = closest(e.target, '.zoom-to-hunt-unit').value;
     HuntService.getHuntUnitByObjectIds(objectId)
       .then((data) => data[0])
