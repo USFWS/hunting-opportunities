@@ -46,7 +46,6 @@ const huntUnits = esri.featureLayer({
   },
   pane: 'hunt-units',
   onEachFeature: (feature, layer) => {
-    console.log(feature.properties);
     layer.bindTooltip(feature.properties.HuntUnit, { permanent: true });
     layer.on('click', (e) => {
       // Get info on huntable species, append it to info about the hunt unit
