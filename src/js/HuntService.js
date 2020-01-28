@@ -58,8 +58,12 @@ const getHuntableSpecies = (species) => {
 };
 
 const getHuntUnitFromSpeciesData = (objectIds) => {
-  const API_URL = `${SPECIES_TABLE_URL}queryRelatedRecords?objectIds=${objectIds}&f=pjson&returnGeometry=false&outFields=*`;
-  return fetch(API_URL)
+  const API_URL = `${SPECIES_TABLE_URL}queryRelatedRecords`;
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `objectIds=${objectIds}&outFields=*&returnGeometry=false&f=pjson`,
+  })
     .then((res) => res.json())
     .then((data) => data.relatedRecordGroups)
     .catch(console.log);
@@ -74,7 +78,7 @@ const getSpecialHunts = (query) => {
     .catch(console.log);
 };
 
-const combineSpeciesAndHuntUnit = (huntData) => huntData.species.map((s) => {
+const combineSpeciesAndHuntUnit = (huntData) => huntData.hunts.map((s) => {
   const huntUnit = huntData.units.find((u) => u.objectId === s.OBJECTID);
   if (!huntUnit) {
     console.log(s.OBJECTID);

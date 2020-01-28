@@ -53,15 +53,15 @@ const Results = function (opts) {
     this.loading.setAttribute('aria-hidden', 'false');
     this.activateInput(this.inputs.specialSelect);
     HuntService.getSpecialHunts(query)
-      .then((species) => { huntData.species = species; return species; })
-      .then((species) => species.map((u) => u.OBJECTID))
+      .then((hunts) => { huntData.hunts = hunts; return hunts; })
+      .then((hunts) => hunts.map((u) => u.OBJECTID))
       .then((objectIds) => objectIds.join(','))
       .then((objectIds) => encodeURIComponent(objectIds))
       .then(HuntService.getHuntUnitFromSpeciesData)
       .then((unitData) => { huntData.units = unitData; return huntData; })
       .then(HuntService.combineSpeciesAndHuntUnit)
       .then((results) => {
-        this.render(results, templates.specialHunts, query);
+        this.render(results, templates.huntUnits, query);
       });
   });
 
@@ -90,8 +90,8 @@ const Results = function (opts) {
     this.loading.setAttribute('aria-hidden', 'false');
     // Get huntable species by user query, mash it up with data on hunt units
     HuntService.getHuntableSpecies(query)
-      .then((species) => { huntData.species = species; return species; })
-      .then((species) => species.map((u) => u.OBJECTID))
+      .then((hunts) => { huntData.hunts = hunts; return hunts; })
+      .then((hunts) => hunts.map((u) => u.OBJECTID))
       .then((objectIds) => objectIds.join(','))
       .then((objectIds) => encodeURIComponent(objectIds))
       .then(HuntService.getHuntUnitFromSpeciesData)
@@ -128,20 +128,20 @@ Results.prototype.empty = function () {
 };
 
 Results.prototype.handleResultClick = function (e) {
-  const { className } = e.target;
-  if (className === 'facility-icon') {
+  const { classList } = e.target;
+  if (classList.contains('facility-icon')) {
     const facilityName = closest(e.target, '.facility-info').querySelector('.facility-name').textContent;
     const refuge = helpers.findRefugeByName(facilityName, this.data);
     emitter.emit('zoom:refuge', refuge);
   }
 
-  if (className === 'zoom-to-hunt-unit') {
+  if (classList.contains('zoom-to-hunt-unit')) {
     HuntService.getHuntUnitByObjectIds(e.target.value)
       .then((data) => data[0])
       .then((unit) => emitter.emit('zoom:unit', unit));
   }
 
-  if (className === 'zoom-icon') {
+  if (classList.contains('zoom-icon')) {
     const objectId = closest(e.target, '.zoom-to-hunt-unit').value;
     HuntService.getHuntUnitByObjectIds(objectId)
       .then((data) => data[0])

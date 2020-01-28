@@ -44,6 +44,7 @@ const huntUnits = esri.featureLayer({
         return { fillColor: '#0f4c81', color: '#eee', weight: 5 };
     }
   },
+  pane: 'hunt-units',
   onEachFeature: (feature, layer) => {
     console.log(feature.properties);
     layer.bindTooltip(feature.properties.HuntUnit, { permanent: true });
