@@ -28,7 +28,6 @@ const init = () => {
   fetch(API_URL)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.features.length);
       const geodata = { ...data, features: data.features.map(helpers.updateFeatureStateName) };
       const states = helpers.flatten(geodata.features
         .map((f) => f.properties.State_Array))
