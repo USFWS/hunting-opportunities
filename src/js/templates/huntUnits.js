@@ -36,10 +36,11 @@ const createFacilityItem = (name, opps) => {
   `;
 };
 
-module.exports = (opportunities) => {
+module.exports = (opportunities, query) => {
   const groupedOpps = helpers.groupBy(opportunities, 'properties.OrgName');
+  const huntable = query || opportunities[0].properties.Species;
   return `
-    <h2>Hunts available for ${opportunities[0].properties.Species}</h2>
+    <h2>Hunts available for ${huntable}</h2>
     <p class="regulation-details">State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>
     ${Object.keys(groupedOpps).map((key) => createFacilityItem(key, groupedOpps[key])).join('')}
   `;
