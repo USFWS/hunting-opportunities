@@ -53,15 +53,15 @@ const Results = function (opts) {
     this.loading.setAttribute('aria-hidden', 'false');
     this.activateInput(this.inputs.specialSelect);
     HuntService.getSpecialHunts(query)
-      .then((species) => { huntData.species = species; return species; })
-      .then((species) => species.map((u) => u.OBJECTID))
+      .then((hunts) => { huntData.hunts = hunts; return hunts; })
+      .then((hunts) => hunts.map((u) => u.OBJECTID))
       .then((objectIds) => objectIds.join(','))
       .then((objectIds) => encodeURIComponent(objectIds))
       .then(HuntService.getHuntUnitFromSpeciesData)
       .then((unitData) => { huntData.units = unitData; return huntData; })
       .then(HuntService.combineSpeciesAndHuntUnit)
       .then((results) => {
-        this.render(results, templates.specialHunts, query);
+        this.render(results, templates.huntUnits, query);
       });
   });
 
@@ -90,8 +90,8 @@ const Results = function (opts) {
     this.loading.setAttribute('aria-hidden', 'false');
     // Get huntable species by user query, mash it up with data on hunt units
     HuntService.getHuntableSpecies(query)
-      .then((species) => { huntData.species = species; return species; })
-      .then((species) => species.map((u) => u.OBJECTID))
+      .then((hunts) => { huntData.hunts = hunts; return hunts; })
+      .then((hunts) => hunts.map((u) => u.OBJECTID))
       .then((objectIds) => objectIds.join(','))
       .then((objectIds) => encodeURIComponent(objectIds))
       .then(HuntService.getHuntUnitFromSpeciesData)

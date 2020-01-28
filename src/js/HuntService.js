@@ -78,7 +78,7 @@ const getSpecialHunts = (query) => {
     .catch(console.log);
 };
 
-const combineSpeciesAndHuntUnit = (huntData) => huntData.species.map((s) => {
+const combineSpeciesAndHuntUnit = (huntData) => huntData.hunts.map((s) => {
   const huntUnit = huntData.units.find((u) => u.objectId === s.OBJECTID);
   if (!huntUnit) {
     console.log(s.OBJECTID);
