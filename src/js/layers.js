@@ -3,7 +3,7 @@ const esri = require('esri-leaflet');
 require('esri-leaflet-renderers');
 
 const emitter = require('./emitter');
-const { getRelatedHuntableSpecies } = require('./HuntService');
+const { completeRefugeInfoFromHuntUnit } = require('./HuntService');
 
 const imagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
@@ -49,11 +49,8 @@ const huntUnits = esri.featureLayer({
     layer.bindTooltip(feature.properties.HuntUnit, { permanent: true });
     layer.on('click', (e) => {
       // Get info on huntable species, append it to info about the hunt unit
-      getRelatedHuntableSpecies(e.target.feature.id).then((species) => {
-        emitter.emit('click:huntunit', {
-          ...feature.properties,
-          species,
-        });
+      completeRefugeInfoFromHuntUnit(feature).then((data) => {
+        emitter.emit('click:huntunit', data);
       });
     });
     // layer.bindPopup(`<p>${feature.properties.HuntUnit}</p>`);
