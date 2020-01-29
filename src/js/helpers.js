@@ -1,5 +1,6 @@
 const L = require('leaflet');
 const unique = require('array-unique').immutable;
+const uniqueBy = require('lodash.uniqBy');
 const madison = require('madison');
 const flatten = require('flatten');
 const titleCase = require('to-title-case');
@@ -69,6 +70,7 @@ const matchesStateRegs = (val) => val.toLowerCase() === 'state regulations apply
 module.exports = {
   flatten,
   unique,
+  uniqueBy,
   sortByName,
   featuresToBounds,
   findRefugeByName,
