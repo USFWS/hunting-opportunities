@@ -1,47 +1,51 @@
 const helpers = require('../helpers');
 
-const createHuntUnitItem = ({ properties: props }) => {
-  const regs = [props.MethodOfTake, props.DateTime, props.BagLimits].map(helpers.matchesStateRegs);
+const createHuntingOpportunityItem = (opp, urlHunting) => {
+  // console.log(opp);
+  const regs = [opp.MethodOfTake, opp.DateTime, opp.BagLimits].map(helpers.matchesStateRegs);
   return `
+    <p class="centered"><strong>${opp.Label}</strong></p>
+    <ul class="huntable-species-list">
+      ${regs[0] ? '' : `<li>Method of take: <a href="${urlHunting}">${opp.MethodOfTake}</a></li>`}
+      ${regs[1] ? '' : `<li>Date & times: <a href="${urlHunting}">${opp.DateTime}</a></li>`}
+      ${regs[2] ? '' : `<li>Bag limit: <a href="${urlHunting}">${opp.BagLimits}</a></li>`}
+    </ul>`;
+};
+
+const createHuntUnitItem = (unit, urlHunting) => `
     <ul class="hunt-unit-info">
-      <li>Hunt unit: ${props.HuntUnit}</li>
+      <li><strong>Hunt unit: ${unit.HuntUnit}</strong></li>
       <li>
-      ${props.OBJECTID
-    ? `<button class="zoom-to-hunt-unit hidden-button" value="${props.OBJECTID}">
+      ${unit.OBJECTID
+    ? `<button class="zoom-to-hunt-unit hidden-button" value="${unit.OBJECTID}">
           <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
         </button>`
     : ''}
       </li>
       <li>
-        <a href="${props.URL}" target="_blank">
+        <a href="${unit.URL}" target="_blank">
           <svg class="website-icon"><use xlink:href="#world"></use></svg>
         </a>
       </li>
     </ul>
 
-    <ul class="huntable-species-list">
-      ${regs[0] ? '' : `<li>Method of take: ${props.MethodOfTake}</li>`}
-      ${regs[1] ? '' : `<li>Date & times: ${props.DateTime}</li>`}
-      ${regs[2] ? '' : `<li>Bag limit: ${props.BagLimits}</li>`}
-    </ul>
+    ${unit.opportunities.map((o) => createHuntingOpportunityItem(o, urlHunting)).join('')}
   `;
-};
 
-const createFacilityItem = (name, opps) => {
-  const props = opps[0] ? opps[0].properties : null;
-  if (!props) return;
+const createFacilityItem = (facility) => {
+  if (!facility) return;
   return `
-    ${props.URL ? `<h3><a href="${props.URL}" target="_blank"> ${name} in ${props.State}</a></h3>` : ''}
-    ${opps.map(createHuntUnitItem).join('')}
+    ${facility.url ? `<h3><a href="${facility.url}" target="_blank"> ${facility.name} in ${facility.state}</a></h3>` : ''}
+    ${facility.units.map((u) => createHuntUnitItem(u, facility.urlHunting)).join('')}
   `;
 };
 
-module.exports = (opportunities, query) => {
-  const groupedOpps = helpers.groupBy(opportunities, 'properties.OrgName');
-  const huntable = query || opportunities[0].properties.Species;
+module.exports = (facilities, query) => {
+  const huntable = query || facilities[0].properties.Species;
+  console.log(facilities);
   return `
     <h2>Hunts available for ${huntable}</h2>
     <p class="regulation-details">State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>
-    ${Object.keys(groupedOpps).map((key) => createFacilityItem(key, groupedOpps[key])).join('')}
+    ${facilities.map(createFacilityItem).join('')}
   `;
 };
