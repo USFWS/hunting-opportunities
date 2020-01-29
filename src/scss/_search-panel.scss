@@ -28,13 +28,14 @@
   h2,
   h3,
   .refuge-address,
-  .hunt-unit-info,
+  .hunt-unit-name,
+  .centered,
   .regulation-details {
     text-align: center;
   }
 
   .refuge-address,
-  .hunt-unit-info {
+  .hunt-unit-name {
     font-weight: bold;
   }
 }
@@ -108,7 +109,7 @@
 
 .search-results-content {
   overflow: hidden;
-  margin: 0;
+  margin: 0 0 2rem 0;
   padding: 0;
   transition: all .3s;
 

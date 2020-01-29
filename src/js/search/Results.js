@@ -26,9 +26,16 @@ const Results = function (opts) {
   this.content.addEventListener('click', this.handleResultClick.bind(this));
   this.toggle.addEventListener('click', this.toggleSearchResults.bind(this));
 
-  emitter.on('click:huntunit', (props) => {
+  const displayHuntUnit = (props) => {
     this.empty();
     this.content.innerHTML = templates.hunt(props);
+    this.loading.setAttribute('aria-hidden', 'true');
+  };
+
+  emitter.on('click:huntunit', displayHuntUnit);
+  emitter.on('zoom:unit', (unit) => {
+    this.loading.setAttribute('aria-hidden', 'false');
+    HuntService.completeRefugeInfoFromHuntUnit(unit).then(displayHuntUnit);
   });
 
   emitter.on('click:refuge', (props) => {

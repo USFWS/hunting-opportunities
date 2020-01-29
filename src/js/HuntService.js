@@ -34,7 +34,7 @@ const getRelatedHuntableSpecies = (objectIDs) => {
   return fetch(API_URL)
     .then((res) => res.json())
     .then((data) => data.relatedRecordGroups[0]) // do we need more than one related record here?
-    .then((result) => result.relatedRecords)
+    .then((result) => ((result && result.relatedRecords) ? result.relatedRecords : []))
     .then((species) => species.map((s) => s.attributes))
     .catch(console.log);
 };
@@ -94,6 +94,17 @@ const combineSpeciesAndHuntUnit = (huntData) => huntData.hunts.map((s) => {
   };
 });
 
+const completeRefugeInfoFromHuntUnit = (unit) => {
+  const getSpecies = getRelatedHuntableSpecies(unit.id);
+  const getFacility = getRefugeInfoByOrgCode(unit.properties.OrgCode);
+
+  return Promise.all([getSpecies, getFacility]).then(([species, facility]) => ({
+    ...unit.properties,
+    species,
+    facility,
+  }));
+};
+
 module.exports = {
   getHuntUnitsByOrgCode,
   getHuntUnitByObjectIds,
@@ -104,4 +115,5 @@ module.exports = {
   combineSpeciesAndHuntUnit,
   getSpecialHunts,
   getRefugeInfoByOrgCode,
+  completeRefugeInfoFromHuntUnit,
 };
