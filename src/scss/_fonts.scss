@@ -15,3 +15,12 @@
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("../fonts/SourceSansPro-Bold.woff2") format("woff2"),
+    url("../fonts/SourceSansPro-Bold.woff") format("woff"),
+    url("../fonts/SourceSansPro-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: bold;
+}

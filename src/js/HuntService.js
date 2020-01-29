@@ -1,4 +1,5 @@
 const ArcGIS = require('terraformer-arcgis-parser');
+const { unique, uniqueBy, getStateName } = require('./helpers');
 
 const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1/';
 const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/2/';
@@ -9,6 +10,17 @@ const getRefugeInfoByOrgCode = (orgCode) => {
   return fetch(API_URL)
     .then((res) => res.json())
     .then((data) => data.features[0].properties)
+    .catch(console.log);
+};
+
+const getRefugesByOrgCodes = (orgCodes) => {
+  const API_URL = `${HUNTING_OPP_URL}/query`;
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `where=OrgCode%20IN%20(${orgCodes})&outFields=*&f=pgeojson`,
+  })
+    .then((res) => res.json())
     .catch(console.log);
 };
 
@@ -85,6 +97,7 @@ const combineSpeciesAndHuntUnit = (huntData) => huntData.hunts.map((s) => {
     return null;
   }
   const geojson = ArcGIS.parse(huntUnit.relatedRecords[0]);
+  console.log(huntUnit);
   return {
     ...geojson,
     properties: {
@@ -105,6 +118,36 @@ const completeRefugeInfoFromHuntUnit = (unit) => {
   }));
 };
 
+const completeRefugeInfoFromSpeciesInfo = (hunts) => {
+  const objectIds = hunts.map((h) => h.OBJECTID).join(',');
+
+  return getHuntUnitFromSpeciesData(encodeURIComponent(objectIds))
+    .then((huntUnits) => {
+      const units = huntUnits
+        .map((h) => h.relatedRecords)
+        .flat()
+        .map((h) => h.attributes);
+      // Get unique orgCodes, format as string separated by commas
+      const orgCodes = unique(units.map((u) => u.OrgCode)).join(',');
+      return [units, orgCodes];
+    })
+    .then(([units, orgCodes]) => getRefugesByOrgCodes(orgCodes)
+      .then((res) => res.features)
+      .then((facilities) => facilities.map(({ properties: props }) => {
+        const uniqueHuntUnits = uniqueBy(units, 'OBJECTID');
+        return {
+          name: props.OrgName,
+          url: props.UrlStation,
+          urlHunting: props.UrlHunting,
+          state: getStateName(props.State),
+          units: uniqueHuntUnits.filter((u) => u.OrgName === props.OrgName).map((u) => ({
+            ...u,
+            opportunities: hunts.filter((h) => h.HuntUnit === u.HuntUnit),
+          })),
+        };
+      })));
+};
+
 module.exports = {
   getHuntUnitsByOrgCode,
   getHuntUnitByObjectIds,
@@ -116,4 +159,6 @@ module.exports = {
   getSpecialHunts,
   getRefugeInfoByOrgCode,
   completeRefugeInfoFromHuntUnit,
+  completeRefugeInfoFromSpeciesInfo,
+  getRefugesByOrgCodes,
 };
