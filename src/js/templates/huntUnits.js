@@ -1,7 +1,6 @@
 const helpers = require('../helpers');
 
 const createHuntingOpportunityItem = (opp, urlHunting) => {
-  // console.log(opp);
   const regs = [opp.MethodOfTake, opp.DateTime, opp.BagLimits].map(helpers.matchesStateRegs);
   return `
     <p class="centered"><strong>${opp.Label}</strong></p>
@@ -42,7 +41,6 @@ const createFacilityItem = (facility) => {
 
 module.exports = (facilities, query) => {
   const huntable = query || facilities[0].properties.Species;
-  console.log(facilities);
   return `
     <h2>Hunts available for ${huntable}</h2>
     <p class="regulation-details">State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>
