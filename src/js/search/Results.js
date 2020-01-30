@@ -39,20 +39,24 @@ const Results = function (opts) {
   });
 
   emitter.on('click:refuge', (props) => {
-    const huntUnits = HuntService.getHuntUnitsByOrgCode(props.OrgCode);
-    const refuge = getByOrgCode(props.OrgCode);
     this.loading.setAttribute('aria-hidden', 'false');
 
-    Promise.all([huntUnits, refuge]).then(([units, facility]) => {
-      this.render([{
-        ...facility,
-        properties: {
-          ...props,
-          ...facility.properties,
-          units,
-        },
-      }], templates.refuge);
-    });
+    HuntService.getHuntUnitsByOrgCode(props.OrgCode)
+      .then((units) => {
+        getByOrgCode(props.OrgCode)
+          .then((facility) => {
+            this.render([{
+              ...facility,
+              properties: { ...props, ...facility.properties, units },
+            }], templates.refuge);
+          })
+          .catch((err) => {
+            console.log('Could not retrieve facility info.');
+            this.render([{
+              properties: { ...props, units },
+            }], templates.refuge);
+          });
+      });
   });
 
   emitter.on('search:special', (query) => {
