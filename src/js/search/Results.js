@@ -103,15 +103,21 @@ Results.prototype.activateInput = function (input) {
 };
 
 Results.prototype.openSearchResults = function () {
-  this.content.classlist.remove('closed');
+  this.content.classList.remove('closed');
+  this.toggle.textContent = 'Hide results';
 };
 
 Results.prototype.closeSearchResults = function () {
-  this.content.classlist.add('closed');
+  this.content.classList.add('closed');
+  this.toggle.textContent = 'Show results';
 };
 
 Results.prototype.toggleSearchResults = function () {
-  this.content.classList.toggle('closed');
+  if (this.content.classList.contains('closed')) {
+    this.openSearchResults();
+  } else {
+    this.closeSearchResults();
+  }
 };
 
 Results.prototype.empty = function () {
