@@ -1,6 +1,6 @@
 const L = require('leaflet');
 const unique = require('array-unique').immutable;
-const uniqueBy = require('lodash.uniqBy');
+const uniqueBy = require('lodash.uniqby');
 const madison = require('madison');
 const flatten = require('flatten');
 const titleCase = require('to-title-case');
