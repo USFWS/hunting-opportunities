@@ -31,6 +31,7 @@ const amenities = esri.featureLayer({
   url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_National_Visitor_Service_Amenities_View/FeatureServer/0',
   minZoom: 12,
   onEachFeature: (feature, layer) => layer.bindPopup(`<p>${feature.properties.Name}</p>`),
+  where: 'Category IN (36,35,1,2,3,34,32,28,7,8,9,10,11,24,16,33,18,27,20,45)',
 });
 
 const huntUnits = esri.featureLayer({
