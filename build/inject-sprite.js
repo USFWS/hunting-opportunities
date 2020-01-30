@@ -13,7 +13,7 @@ const getSprite = readFileAsync(spritePath, { encoding: 'utf8' });
 Promise.all([getHTML, getSprite])
   .then(([html, sprite]) => {
     const $ = cheerio.load(html);
-    $('.svg-sprite').append(sprite);
+    $('.svg-sprite').empty().append(sprite);
     fs.writeFile(htmlPath, $.html(), 'utf8', (err) => { if (err) console.log(err); });
   })
   .catch(console.log);
