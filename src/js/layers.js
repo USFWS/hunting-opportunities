@@ -40,9 +40,9 @@ const huntUnits = esri.featureLayer({
   style: (feat) => {
     switch (feat.properties.Huntable) {
       case 'No':
-        return { fillColor: '#FF6666', color: '#eee', weight: 5 };
+        return { fillColor: '#FF6666', color: '#eee', weight: 3 };
       default:
-        return { fillColor: '#0f4c81', color: '#eee', weight: 5 };
+        return { fillColor: '#0f4c81', color: '#eee', weight: 3 };
     }
   },
   pane: 'hunt-units',
