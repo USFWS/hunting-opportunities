@@ -16,7 +16,7 @@
   max-width: 350px !important;
   max-height: 95vh;
   overflow: auto;
-  padding: .5rem;
+  padding: .5rem .5rem 0;
   position: fixed;
   top: 13px;
   z-index: 1000;
@@ -83,11 +83,10 @@
   border-radius: 5px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  bottom: -.5rem;
+  bottom: 0;
   color: white;
   display: block;
-  left: -.5rem;
-  margin: -2rem;
+  margin-left: -.5rem;
   position: sticky;
   width: calc(100% + 1rem);
 
@@ -111,7 +110,7 @@
 
 .search-results-content {
   overflow: hidden;
-  margin: 0 0 2rem 0;
+  margin: 0;
   padding: 0;
   transition: all .3s;
 
