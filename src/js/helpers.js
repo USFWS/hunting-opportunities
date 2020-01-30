@@ -1,6 +1,6 @@
 const L = require('leaflet');
 const unique = require('array-unique').immutable;
-const uniqueBy = require('lodash.uniqBy');
+const uniqueBy = require('lodash.uniqby');
 const madison = require('madison');
 const flatten = require('flatten');
 const titleCase = require('to-title-case');
@@ -20,7 +20,9 @@ const getUniqueStates = (states) => unique(states);
 
 const updateFeatureStateName = (feat) => {
   const state = feat.properties.State;
-  const array = state ? state.split('/').map(madison.getStateName) : [''];
+  let array;
+  if (state.includes('USMOI')) array = ['U.S. Minor Outlying Islands'];
+  else array = state ? state.split('/').map(madison.getStateName) : [''];
   return {
     ...feat,
     properties: {
