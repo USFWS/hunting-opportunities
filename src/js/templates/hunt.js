@@ -20,6 +20,6 @@ module.exports = (props) => `
   ${props.species && props.species.length ? '<h3>Huntable species</h3>' : ''}
   ${props.Huntable === 'Yes' ? '<p class="regulation-details">State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>' : ''}
   ${props.species
-    .map((species) => createListItem({ ...species, url: props.facility.UrlHunting }))
+    .map((species) => createListItem({ ...species, url: props.facility.properties.UrlHunting }))
     .join('')
 }`;
