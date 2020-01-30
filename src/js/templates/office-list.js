@@ -4,27 +4,17 @@ const createListItem = (o) => {
   const props = o.properties;
   return `
   <li>
-    <svg class="orange-marker">
-      <use xlink:href="#orange"></use>
-    </svg>
+    <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
+      <svg class="orange-marker">
+        <use xlink:href="#orange"></use>
+      </svg>
 
-    <div class="facility-info">
-      <p class="facility-name">${props.OrgName}</p>
-      <ul class="facility-links">
-        <li><p class="facility-location">${props.State_Label}</p></li>
-        <li>
-          <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
-            <svg class="zoom-to-refuge"><use xlink:href="#zoom"></use></svg>
-          </button>
-        </li>
-        <li>
-          <a href="${props.URL}" target="_blank">
-            <svg class="website-icon"><use xlink:href="#world"></use></svg>
-          </a>
-        </li>
-      </ul>
-    </div >
-  </li > `;
+      <div class="facility-info">
+        <p class="facility-name">${props.OrgName}</p>
+        <p class="facility-location">${props.State_Label}</p>
+      </div>
+    </button>
+  </li>`;
 };
 
 const template = (offices) => `

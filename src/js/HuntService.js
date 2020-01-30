@@ -9,7 +9,7 @@ const getRefugeInfoByOrgCode = (orgCode) => {
   const API_URL = `${HUNTING_OPP_URL}query?outFields=*&f=pgeojson&where=OrgCode=${orgCode}`;
   return fetch(API_URL)
     .then((res) => res.json())
-    .then((data) => data.features[0].properties)
+    .then((data) => data.features[0])
     .catch(console.log);
 };
 

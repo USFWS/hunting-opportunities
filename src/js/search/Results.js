@@ -122,6 +122,7 @@ Results.prototype.empty = function () {
 
 Results.prototype.handleResultClick = function (e) {
   const { classList } = e.target;
+  console.log(e.target);
   if (classList.contains('facility-icon')) {
     const facilityName = closest(e.target, '.facility-info').querySelector('.facility-name').textContent;
     const refuge = helpers.findRefugeByName(facilityName, this.data);
@@ -135,7 +136,7 @@ Results.prototype.handleResultClick = function (e) {
   }
 
   if (classList.contains('zoom-to-refuge')) {
-    const orgCode = e.target.parentNode.value;
+    const orgCode = e.target.value;
     HuntService.getRefugeInfoByOrgCode(orgCode)
       .then((refuge) => emitter.emit('zoom:refuge', refuge));
   }

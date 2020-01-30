@@ -21,11 +21,6 @@ const createHuntUnitItem = (unit, urlHunting) => `
         </button>`
     : ''}
       </li>
-      <li>
-        <a href="${unit.URL}" target="_blank">
-          <svg class="website-icon"><use xlink:href="#world"></use></svg>
-        </a>
-      </li>
     </ul>
 
     ${unit.opportunities.map((o) => createHuntingOpportunityItem(o, urlHunting)).join('')}
