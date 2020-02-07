@@ -26,7 +26,7 @@
     "start": "npm run watch",
     "gh-pages": "gh-pages -d dist",
     "deploy": "npm run build && npm run gh-pages",
-    "analyze": "browserify --full-paths src/js/index.js | discify --open"
+    "analyze": "browserify --full-paths src/js/index.js | uglifyjs -mc | discify --open"
   },
   "keywords": [],
   "author": "@r0yhewitt <roy_hewitt@fws.gov>",
