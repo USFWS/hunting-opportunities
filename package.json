@@ -25,7 +25,8 @@
     "prestart": "npm run create:dist && npm run build:styles && npm run svg && npm run build:html && npm run copy",
     "start": "npm run watch",
     "gh-pages": "gh-pages -d dist",
-    "deploy": "npm run build && npm run gh-pages"
+    "deploy": "npm run build && npm run gh-pages",
+    "analyze": "browserify --full-paths src/js/index.js | discify --open"
   },
   "keywords": [],
   "author": "@r0yhewitt <roy_hewitt@fws.gov>",
