@@ -5,9 +5,9 @@ const createListItem = (info) => {
   return `
     <h4><strong>${info.Label}</strong></h4>
     <ul class="huntable-species-list">
-      ${regs[0] ? '' : `<li>Method of take: <a href="${info.url}">${info.MethodOfTake}</a></li>`}
-      ${regs[1] ? '' : `<li>Date & times: <a href="${info.url}">${info.DateTime}</a></li>`}
-      ${regs[2] ? '' : `<li>Bag limit: <a href="${info.url}">${info.BagLimits}</a></li>`}
+      ${regs[0] ? '' : `<li>Method of take: <a href="${info.url}" target="_blank">${info.MethodOfTake}</a></li>`}
+      ${regs[1] ? '' : `<li>Date & times: <a href="${info.url}" target="_blank">${info.DateTime}</a></li>`}
+      ${regs[2] ? '' : `<li>Bag limit: <a href="${info.url}" target="_blank">${info.BagLimits}</a></li>`}
     </ul>
   `;
 };

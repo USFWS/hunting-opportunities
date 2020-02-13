@@ -5,9 +5,9 @@ const createHuntingOpportunityItem = (opp, urlHunting) => {
   return `
     <p><strong>${opp.Label}</strong></p>
     <ul class="huntable-species-list">
-      ${regs[0] ? '' : `<li>Method of take: <a href="${urlHunting}">${opp.MethodOfTake}</a></li>`}
-      ${regs[1] ? '' : `<li>Date & times: <a href="${urlHunting}">${opp.DateTime}</a></li>`}
-      ${regs[2] ? '' : `<li>Bag limit: <a href="${urlHunting}">${opp.BagLimits}</a></li>`}
+      ${regs[0] ? '' : `<li>Method of take: <a href="${urlHunting}" target="_blank">${opp.MethodOfTake}</a></li>`}
+      ${regs[1] ? '' : `<li>Date & times: <a href="${urlHunting}" target="_blank">${opp.DateTime}</a></li>`}
+      ${regs[2] ? '' : `<li>Bag limit: <a href="${urlHunting}" target="_blank">${opp.BagLimits}</a></li>`}
     </ul>`;
 };
 
