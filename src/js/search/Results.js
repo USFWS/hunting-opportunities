@@ -26,6 +26,11 @@ const Results = function (opts) {
   this.content.addEventListener('click', this.handleResultClick.bind(this));
   this.toggle.addEventListener('click', this.toggleSearchResults.bind(this));
 
+  // Analytics events
+  this.inputs.speciesSelect.addEventListener('change', (e) => emitter.emit('select:species', e.target.value));
+  this.inputs.stateSelect.addEventListener('change', (e) => emitter.emit('select:state', e.target.value));
+  this.inputs.specialSelect.addEventListener('change', (e) => emitter.emit('select:special', e.target.value));
+
   const displayHuntUnit = (props) => {
     this.empty();
     this.content.innerHTML = templates.hunt(props);
@@ -119,8 +124,10 @@ Results.prototype.closeSearchResults = function () {
 Results.prototype.toggleSearchResults = function () {
   if (this.content.classList.contains('closed')) {
     this.openSearchResults();
+    emitter.emit('toggle:results', 'open');
   } else {
     this.closeSearchResults();
+    emitter.emit('toggle:results', 'close');
   }
 };
 

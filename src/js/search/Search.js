@@ -20,6 +20,9 @@ const Search = function (opts) {
   this.specialSelect.addEventListener('input', this.emitQuery.bind(this));
   this.speciesSelect.addEventListener('input', this.emitQuery.bind(this));
   this.radios.forEach((r) => r.addEventListener('click', this.toggleSearchInterface.bind(this)));
+
+  // Analytics events
+  this.input.addEventListener('input', debounce((e) => { emitter.emit('search:term', e.target.value); }, 2500));
 };
 
 Search.prototype.emitQuery = function (e) {

@@ -5,6 +5,7 @@ const Results = require('./search/Results');
 const deepLink = require('./deep-link');
 const { getUniqueHuntableSpecies } = require('./HuntService');
 const Disclaimer = require('./Disclaimer');
+require('./analytics');
 
 const searchPanel = document.querySelector('.search-panel');
 const form = searchPanel.querySelector('.search-form');
