@@ -33,6 +33,24 @@
   .hunt-unit-name {
     font-weight: bold;
   }
+
+  .refuge-hunt-unit {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 1rem;
+
+    button {
+      width: 30px;
+      margin-right: 1rem;
+    }
+  }
+}
+
+.no-style-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .hunt-unit-info {
