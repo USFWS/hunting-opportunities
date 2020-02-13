@@ -4,6 +4,7 @@ const Search = require('./search/Search');
 const Results = require('./search/Results');
 const deepLink = require('./deep-link');
 const { getUniqueHuntableSpecies } = require('./HuntService');
+const Disclaimer = require('./Disclaimer');
 
 const searchPanel = document.querySelector('.search-panel');
 const form = searchPanel.querySelector('.search-form');
@@ -18,11 +19,13 @@ const length = searchPanel.querySelector('.search-results-length');
 const content = searchPanel.querySelector('.search-results-content');
 const loading = searchPanel.querySelector('.loading');
 const toggleResults = searchPanel.querySelector('.toggle-results');
+const disclaimerWrapper = document.querySelector('.disclaimer-wrapper');
 
 // Start the app
 const init = () => {
   const API_URL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/query?where=OrgType%20!%3D%20'WMD'%20AND%20OrgType%20!%3D%20'RAO'%20AND%20OrgType%20!%3D%20'CA'&outFields=*&f=pgeojson&token=";
 
+  new Disclaimer(disclaimerWrapper);
   getUniqueHuntableSpecies().then((res) => helpers.addOptionsToSelect(res, speciesSelect));
 
   fetch(API_URL)
