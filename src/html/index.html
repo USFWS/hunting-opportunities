@@ -88,6 +88,17 @@
     <div class="search-results-content"></div>
     <button class="toggle-results" aria-hidden="true">Hide results</button>
   </aside>
+  <aside class="disclaimer-wrapper">
+    <div class="disclaimer">
+      <h2>Disclaimer</h2>
+      <p>This map layer depicts hunt units regulated by the U.S. Fish and Wildlife Service. It is intended for informational purposes only and does not constitute a legal survey. Ownership of land, whether public or private, may change at any time. You are solely responsible for confirming the accuracy of all information before taking or omitting any action. Always obey property line postings and use common sense when verifying boundaries. Public and private land boundaries may not be marked. Hunting on a station is subject to Federal and State regulations. Consult all current Federal and State regulations prior to hunting. Station specific regulations may exist. Users should always consult the station&#x2019;s website or check with the appropriate local official with any concerns regarding the information displayed.</p>
+      <form>
+        <label for="hide-disclaimer">Do not show this message again: </label>
+        <input type="checkbox" name="hide-disclaimer" id="hide-disclaimer">
+        <button class="close-disclaimer">Continue</button>
+      </form>
+    </div>
+  </aside>
   <div id="map"></div>
 
   <script src="./js/bundle.js"></script>
