@@ -70,7 +70,6 @@
     "lodash.groupby": "^4.6.0",
     "lodash.uniqby": "^4.7.0",
     "madison": "^2.0.0",
-    "npm": "^6.13.7",
     "query-string": "^6.9.0",
     "terraformer-arcgis-parser": "^1.1.0",
     "to-title-case": "^1.0.0"
