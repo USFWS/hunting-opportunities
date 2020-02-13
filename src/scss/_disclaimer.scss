@@ -6,6 +6,10 @@
   top: 0;
   width: 100%;
   z-index: 100000;
+
+  &[aria-hidden=true] {
+    display: none;
+  }
 }
 
 .disclaimer {
@@ -29,7 +33,7 @@
     margin-right: .5rem;
   }
 
-  button {
+  .close-disclaimer {
     background: $blue;
     border-radius: 5px;
     bottom: 1rem;
