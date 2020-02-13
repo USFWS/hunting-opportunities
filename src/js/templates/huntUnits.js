@@ -3,7 +3,7 @@ const helpers = require('../helpers');
 const createHuntingOpportunityItem = (opp, urlHunting) => {
   const regs = [opp.MethodOfTake, opp.DateTime, opp.BagLimits].map(helpers.matchesStateRegs);
   return `
-    <p class="centered"><strong>${opp.Label}</strong></p>
+    <p><strong>${opp.Label}</strong></p>
     <ul class="huntable-species-list">
       ${regs[0] ? '' : `<li>Method of take: <a href="${urlHunting}">${opp.MethodOfTake}</a></li>`}
       ${regs[1] ? '' : `<li>Date & times: <a href="${urlHunting}">${opp.DateTime}</a></li>`}
@@ -38,7 +38,7 @@ module.exports = (facilities, query) => {
   const huntable = query || facilities[0].properties.Species;
   return `
     <h2>Hunts available for ${huntable}</h2>
-    <p class="regulation-details">State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>
+    <p>State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>
     ${facilities.map(createFacilityItem).join('')}
   `;
 };

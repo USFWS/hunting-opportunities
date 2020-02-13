@@ -14,11 +14,11 @@ const createListItem = (info) => {
 
 module.exports = (props) => `
   <h2><a href="${props.URL}" target="_blank">${props.OrgName}</a></h2>
-  <p class="centered"><strong>Hunt unit: ${props.HuntUnit} (${helpers.formatAcreage(props.Acreage)} acres)</strong></p>
-  ${props.Huntable === 'No' ? '<p class="centered"><strong>Hunting is not permitted on this unit</strong></p>' : ''}
+  <p><strong>Hunt unit: ${props.HuntUnit} (${helpers.formatAcreage(props.Acreage)} acres)</strong></p>
+  ${props.Huntable === 'No' ? '<p><strong>Hunting is not permitted on this unit</strong></p>' : ''}
   ${props.facility.DescHunt ? `<p>${props.facility.DescHunt}</p>` : ''}
   ${props.species && props.species.length ? '<h3>Huntable species</h3>' : ''}
-  ${props.Huntable === 'Yes' ? '<p class="regulation-details">State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>' : ''}
+  ${props.Huntable === 'Yes' ? '<p>State regulations for method of take, date/times and bag limit apply unless otherwise noted.</p>' : ''}
   ${props.species
     .map((species) => createListItem({ ...species, url: props.facility.properties.UrlHunting }))
     .join('')
