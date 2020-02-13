@@ -28,6 +28,14 @@ emitter.on('select:species', (species) => {
   });
 });
 
+// Selected special hunt from dropdown
+emitter.on('select:special', (special) => {
+  analytics('event', 'search:special', {
+    event_label: special,
+    event_category: 'Hunting Opportunities Mapper'
+  });
+});
+
 // Selected refuge from sidebar
 emitter.on('zoom:refuge', (refuge) => {
   analytics('event', 'zoom:refuge', {

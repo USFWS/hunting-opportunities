@@ -29,6 +29,7 @@ const Results = function (opts) {
   // Analytics events
   this.inputs.speciesSelect.addEventListener('change', (e) => emitter.emit('select:species', e.target.value));
   this.inputs.stateSelect.addEventListener('change', (e) => emitter.emit('select:state', e.target.value));
+  this.inputs.specialSelect.addEventListener('change', (e) => emitter.emit('select:special', e.target.value));
 
   const displayHuntUnit = (props) => {
     this.empty();
