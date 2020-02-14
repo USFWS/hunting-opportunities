@@ -1,9 +1,12 @@
 const L = require('leaflet');
+const pointInPolygon = require('@turf/boolean-point-in-polygon').default;
+const bboxPolygon = require('@turf/bbox-polygon').default;
+const { polygon, point } = require('@turf/helpers');
 
 const emitter = require('./emitter');
 const layers = require('./layers');
 const icons = require('./icons');
-const GLOBAL_BOUNDS = require('./bounds');
+const { initialBounds, alaskaBbox } = require('./bounds');
 const { getHuntUnitByObjectIds } = require('./HuntService');
 
 const emptyGeojson = {
@@ -27,7 +30,7 @@ const onEachFeature = (feat, layer) => {
 };
 
 const Map = function (opts) {
-  this.map = L.map('map', { zoomControl: false }).fitBounds(GLOBAL_BOUNDS.init);
+  this.map = L.map('map', { zoomControl: false }).fitBounds(initialBounds);
   this.data = opts.data;
 
   this.map.createPane('hunt-units');
@@ -73,6 +76,29 @@ const Map = function (opts) {
     'Hunt units': layers.huntUnits,
   }).addTo(this.map);
   L.control.zoom({ position: 'topright' }).addTo(this.map);
+
+  this.map.on('moveend', (e) => {
+    const center = e.target.getCenter();
+    console.log(this.map.getZoom());
+    const polygon = bboxPolygon(alaskaBbox);
+    const pt = point([center.lng, center.lat]);
+    console.log(layers.huntUnits);
+    if (pointInPolygon(pt, polygon)) {
+      console.log('Welcome to Alaska!')
+      console.log('Hunt units layer: ', this.map.hasLayer(layers.huntUnits))
+      if (this.map.hasLayer(layers.huntUnits)) {
+        layers.huntUnits.remove();
+        layers.huntUnitsAlaska.addTo(this.map);
+      }
+    } else {
+      console.log('Bye Bye, Alaska!')
+      console.log('Alaska layer: ', this.map.hasLayer(layers.huntUnitsAlaska))
+      if (this.map.hasLayer(layers.huntUnitsAlaska)) {
+        layers.huntUnitsAlaska.remove();
+        layers.huntUnits.addTo(this.map);
+      }
+    }
+  })
 
   emitter.on('set:bounds', (bounds) => this.map.fitBounds(bounds));
 
