@@ -6,7 +6,8 @@ const emitter = require('./emitter');
 const GLOBAL_BOUNDS = require('./bounds');
 
 const stateToBounds = (state) => GLOBAL_BOUNDS[camelCase(state)];
-
+const isQuery = (obj) => ((obj.query) ? obj.query : false);
+const isSearchMethod = (obj) => ((obj.method) ? obj.method : false);
 const boundsReducer = (bounds, val) => bounds.extend(val);
 
 const getBounds = (state) => {
@@ -19,10 +20,6 @@ const getBounds = (state) => {
   }
   return false;
 };
-
-const isQuery = (obj) => ((obj.query) ? obj.query : false);
-
-const isSearchMethod = (obj) => ((obj.method) ? obj.method : false);
 
 const processQueryString = (qs) => {
   const parsed = querystring.parse(qs);
