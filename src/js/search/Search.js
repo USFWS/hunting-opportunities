@@ -10,11 +10,6 @@ const Search = function (opts) {
   this.state = 'facility';
   this.specialHunts = ['veteran', 'youth', 'disabled', 'mentored'];
 
-  emitter.on('query', (query) => { this.input.value = query; });
-  emitter.on('method', (method) => {
-    const radioButton = this.radios.filter((r) => r.value === method);
-    if (radioButton[0]) radioButton[0].click();
-  });
   this.input.addEventListener('input', debounce(this.emitQuery.bind(this), 400));
   this.stateSelect.addEventListener('input', this.emitQuery.bind(this));
   this.specialSelect.addEventListener('input', this.emitQuery.bind(this));
@@ -23,6 +18,15 @@ const Search = function (opts) {
 
   // Analytics events
   this.input.addEventListener('input', debounce((e) => { emitter.emit('search:term', e.target.value); }, 2500));
+
+  emitter.on('query', (query) => {
+    this.input.value = query;
+    this.input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  emitter.on('method', (method) => {
+    const radioButton = this.radios.filter((r) => r.value === method);
+    if (radioButton[0]) radioButton[0].click();
+  });
 };
 
 Search.prototype.emitQuery = function (e) {
