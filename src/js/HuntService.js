@@ -142,7 +142,7 @@ const completeRefugeInfoFromSpeciesInfo = (hunts) => {
           state: getStateName(props.State),
           units: uniqueHuntUnits.filter((u) => u.OrgName === props.OrgName).map((u) => ({
             ...u,
-            opportunities: hunts.filter((h) => h.HuntUnit === u.HuntUnit),
+            opportunities: hunts.filter((h) => h.CCCODE === u.CCCODE),
           })),
         };
       })));
