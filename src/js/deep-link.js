@@ -5,7 +5,7 @@ const { camelCase } = require('camel-case');
 const emitter = require('./emitter');
 const GLOBAL_BOUNDS = require('./bounds');
 
-const stateToBounds = (state) => GLOBAL_BOUNDS[camelCase(state)];
+const stateToBounds = (state) => GLOBAL_BOUNDS[camelCase(state)] || false;
 const isQuery = (obj) => ((obj.query) ? obj.query : false);
 const isSearchMethod = (obj) => ((obj.method) ? obj.method : false);
 const boundsReducer = (bounds, val) => bounds.extend(val);
@@ -13,9 +13,9 @@ const boundsReducer = (bounds, val) => bounds.extend(val);
 const getBounds = (state) => {
   if (typeof state === 'string') return GLOBAL_BOUNDS[camelCase(state)];
   if (Array.isArray(state)) {
-    // ToDo: Error handling -- show a message if zoom doesn't work
     return state
       .map(stateToBounds)
+      .filter(Boolean) // filters falsy values out
       .reduce(boundsReducer, L.latLngBounds());
   }
   return false;
