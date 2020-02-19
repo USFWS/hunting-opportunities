@@ -8,7 +8,6 @@ const GLOBAL_BOUNDS = require('./bounds');
 const stateToBounds = (state) => GLOBAL_BOUNDS[camelCase(state)] || false;
 const isQuery = (obj) => ((obj.query) ? obj.query : false);
 const isSearchMethod = (obj) => ((obj.method) ? obj.method : false);
-const boundsReducer = (bounds, val) => bounds.extend(val);
 
 const getBounds = (state) => {
   if (typeof state === 'string') return GLOBAL_BOUNDS[camelCase(state)];
@@ -16,7 +15,7 @@ const getBounds = (state) => {
     return state
       .map(stateToBounds)
       .filter(Boolean) // filters falsy values out
-      .reduce(boundsReducer, L.latLngBounds());
+      .reduce((bounds, val) => bounds.extend(val), L.latLngBounds());
   }
   return false;
 };
