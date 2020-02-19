@@ -16,6 +16,9 @@ const DeepLink = function (window) {
   emitter.on('search:special', (e) => this.updateHistory(e, 'special'));
   emitter.on('search:facility', (e) => this.updateHistory(e, 'facility'));
   emitter.on('clear:query', (e) => this.updateHistory(e))
+
+  //emitter.on('click:huntunit', (e) => this.updateHistory(e));
+  //emitter.on('click:refuge', (e) => this.updateHistory(e));
 };
 
 // Maybe run an initialize function that sets up the query string when the map opens
