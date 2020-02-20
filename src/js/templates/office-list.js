@@ -19,7 +19,7 @@ const createListItem = (o) => {
 
 const template = (offices) => `
   <ul class="search-results">
-    ${offices.sort(helpers.sortByName).map(createListItem).join('')}
+    ${offices.map(createListItem).join('')}
   </ul>
 `;
 
