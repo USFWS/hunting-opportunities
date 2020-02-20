@@ -13,7 +13,9 @@ const createListItem = (info) => {
 };
 
 module.exports = (props) => `
-  <h2><a href="${props.URL}" target="_blank">${props.OrgName}</a></h2>
+  <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
+    <h2>${props.OrgName}</h2>
+  </button>
   <p><strong>Hunt unit: ${props.HuntUnit} (${helpers.formatAcreage(props.Acreage)} acres)</strong></p>
   ${props.Huntable === 'No' ? '<p><strong>Hunting is not permitted on this unit</strong></p>' : ''}
   ${props.facility.DescHunt ? `<p>${props.facility.DescHunt}</p>` : ''}
