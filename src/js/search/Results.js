@@ -110,7 +110,7 @@ Results.prototype.searchFacility = function  (query) {
   const results = this.find(query);
   this.activateInput(this.inputs.textInput);
   this.message.innerHTML = 'Search by station name or state';
-  this.render(results, templates.officeList);
+  this.render(results.sort(helpers.sortByName), templates.officeList);
 }
 
 Results.prototype.searchZipcode = function (zipcode) {
@@ -122,7 +122,7 @@ Results.prototype.searchState = function (query) {
   this.loading.setAttribute('aria-hidden', 'false');
   const results = this.findByState(query);
   this.activateInput(this.inputs.stateSelect);
-  this.render(results, templates.officeList);
+  this.render(results.sort(helpers.sortByName), templates.officeList);
 }
 
 Results.prototype.getInput = function (state) {
@@ -249,12 +249,10 @@ Results.prototype.nearest = function (zipcode) {
     return this.index.nearest(geometry, 10);
   };
 
-  const mapOfficesToFeatures = (nearestOffices) => nearestOffices.map((o) => o.layer.feature);
-
   const findAndDisplayNearestOffices = (zip) => {
     const nearestOffices = findNearest(zip);
     if (nearestOffices) {
-      const features = mapOfficesToFeatures(nearestOffices);
+      const features = nearestOffices.map((o) => o.layer.feature);
       this.render(features, templates.officeList);
     }
   };
