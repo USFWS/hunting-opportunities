@@ -79,20 +79,14 @@ const Map = function (opts) {
 
   this.map.on('moveend', (e) => {
     const center = e.target.getCenter();
-    console.log(this.map.getZoom());
     const polygon = bboxPolygon(alaskaBbox);
     const pt = point([center.lng, center.lat]);
-    console.log(layers.huntUnits);
     if (pointInPolygon(pt, polygon)) {
-      console.log('Welcome to Alaska!')
-      console.log('Hunt units layer: ', this.map.hasLayer(layers.huntUnits))
       if (this.map.hasLayer(layers.huntUnits)) {
         layers.huntUnits.remove();
         layers.huntUnitsAlaska.addTo(this.map);
       }
     } else {
-      console.log('Bye Bye, Alaska!')
-      console.log('Alaska layer: ', this.map.hasLayer(layers.huntUnitsAlaska))
       if (this.map.hasLayer(layers.huntUnitsAlaska)) {
         layers.huntUnitsAlaska.remove();
         layers.huntUnits.addTo(this.map);
@@ -140,9 +134,7 @@ const Map = function (opts) {
   });
 
   emitter.on('click:huntunit', (data) => {
-    console.log(data);
     getHuntUnitsByRelatedGUID(data.RelateGUID).then((units) => emitter.emit('zoom:unit', units[0]));
-    // getHuntUnitByObjectIds(data.OBJECTID).then((units) => emitter.emit('zoom:unit', units[0]));
   });
 
   let lastZoom;
