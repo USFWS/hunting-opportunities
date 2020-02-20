@@ -7,7 +7,7 @@ const emitter = require('./emitter');
 const layers = require('./layers');
 const icons = require('./icons');
 const { initialBounds, alaskaBbox } = require('./bounds');
-const { getHuntUnitByObjectIds } = require('./HuntService');
+const { getHuntUnitsByRelatedGUID } = require('./HuntService');
 
 const emptyGeojson = {
   type: 'FeatureCollection',
@@ -140,7 +140,9 @@ const Map = function (opts) {
   });
 
   emitter.on('click:huntunit', (data) => {
-    getHuntUnitByObjectIds(data.OBJECTID).then((units) => emitter.emit('zoom:unit', units[0]));
+    console.log(data);
+    getHuntUnitsByRelatedGUID(data.RelateGUID).then((units) => emitter.emit('zoom:unit', units[0]));
+    // getHuntUnitByObjectIds(data.OBJECTID).then((units) => emitter.emit('zoom:unit', units[0]));
   });
 
   let lastZoom;
