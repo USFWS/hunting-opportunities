@@ -46,6 +46,7 @@ const Results = function (opts) {
           .then((facility) => {
             this.render([{
               ...facility,
+              geometry: { type: 'Point', coordinates: [props.POINT_X, props.POINT_Y] },
               properties: { ...props, ...facility.properties, units },
             }], templates.refuge);
           })
