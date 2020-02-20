@@ -5,6 +5,14 @@ const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/
 const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/2/';
 const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/';
 
+const getRefugeInfoByName = (orgName) => {
+  const API_URL = `${HUNTING_OPP_URL}query?outFields=*&f=pgeojson&where=OrgName='${orgName}'`;
+  return fetch(API_URL)
+    .then((res) => res.json())
+    .then((data) => data.features[0])
+    .catch(console.log);
+};
+
 const getRefugeInfoByOrgCode = (orgCode) => {
   const API_URL = `${HUNTING_OPP_URL}query?outFields=*&f=pgeojson&where=OrgCode=${orgCode}`;
   return fetch(API_URL)
@@ -161,4 +169,5 @@ module.exports = {
   completeRefugeInfoFromHuntUnit,
   completeRefugeInfoFromSpeciesInfo,
   getRefugesByOrgCodes,
+  getRefugeInfoByName
 };
