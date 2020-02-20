@@ -249,12 +249,10 @@ Results.prototype.nearest = function (zipcode) {
     return this.index.nearest(geometry, 10);
   };
 
-  const mapOfficesToFeatures = (nearestOffices) => nearestOffices.map((o) => o.layer.feature);
-
   const findAndDisplayNearestOffices = (zip) => {
     const nearestOffices = findNearest(zip);
     if (nearestOffices) {
-      const features = mapOfficesToFeatures(nearestOffices);
+      const features = nearestOffices.map((o) => o.layer.feature);
       this.render(features, templates.officeList);
     }
   };
