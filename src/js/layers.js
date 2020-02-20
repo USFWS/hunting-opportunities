@@ -61,7 +61,7 @@ const huntUnits = esri.featureLayer(huntUnitOptions);
 const huntUnitsAlaska = esri.featureLayer({
   ...huntUnitOptions,
   url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits_AK_Simplified/FeatureServer/0',
-  minZoom: 6
+  minZoom: 5
 });
 
 const basemaps = {
