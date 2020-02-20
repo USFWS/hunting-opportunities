@@ -37,13 +37,7 @@ const Results = function (opts) {
     this.loading.setAttribute('aria-hidden', 'true');
   };
 
-  emitter.on('click:huntunit', displayHuntUnit);
-  emitter.on('zoom:unit', (unit) => {
-    this.loading.setAttribute('aria-hidden', 'false');
-    HuntService.completeRefugeInfoFromHuntUnit(unit).then(displayHuntUnit);
-  });
-
-  emitter.on('click:refuge', (props) => {
+  const getHuntUnitsAndRenderResults = (props) => {
     this.loading.setAttribute('aria-hidden', 'false');
 
     HuntService.getHuntUnitsByOrgCode(props.OrgCode)
@@ -62,7 +56,16 @@ const Results = function (opts) {
             }], templates.refuge);
           });
       });
+  }
+
+  emitter.on('click:huntunit', displayHuntUnit);
+  emitter.on('zoom:unit', (unit) => {
+    this.loading.setAttribute('aria-hidden', 'false');
+    HuntService.completeRefugeInfoFromHuntUnit(unit).then(displayHuntUnit);
   });
+
+  emitter.on('zoom:refuge', ({properties: props}) => getHuntUnitsAndRenderResults(props));
+  emitter.on('click:refuge', getHuntUnitsAndRenderResults);
 
   emitter.on('search:special', this.searchSpecial.bind(this));
   emitter.on('search:facility', this.searchFacility.bind(this));
@@ -174,6 +177,7 @@ Results.prototype.empty = function () {
 Results.prototype.handleResultClick = function (e) {
   const { classList } = e.target;
   if (classList.contains('facility-icon')) {
+    this.loading.setAttribute('aria-hidden', 'false');
     const facilityName = closest(e.target, '.facility-info').querySelector('.facility-name').textContent;
     const refuge = helpers.findRefugeByName(facilityName, this.data);
     emitter.emit('zoom:refuge', refuge);
