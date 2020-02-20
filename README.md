@@ -2,6 +2,41 @@
 
 An interactive web map of hunting opportunities on U.S. Fish and Wildlife Service lands. This mapper is currently posted to the U.S. Fish and Wildlife Service's intranet. Once the website is ready for prime time it will replace the map on [fws.gov/refuges/hunting](https://www.fws.gov/refuges/hunting/).
 
+## Deep Linking
+
+Deep linking refers to using a URL to link to a resource within a page or application. This application supports deep linking to initializing the map over a state (or states), a facility, a hunt unit. You can also select the search option and query you'd like to open the map with.
+
+### Initialize over a state or states
+
+<application-url>?state=Florida
+<application-url>?state=Florida&state=Georgia&state=South+Carolina
+
+### Initialize over a facility
+
+We use the facility name because it is unique and easy to recognize compared to an OrgCode. We only support one facility at a time.
+
+<application-url>?facility=Blackwater+National+Wildlife+Refuge
+
+### Initialize over a hunt unit
+
+We use the hunt unit ObjectID because the hunt unit names are not unique. We only support one hunt unit at a time.
+
+<application-url>?unit=1491
+
+### Initialize with a certain search term
+
+<application-url>?query=Your+search+term
+
+### Initialize with a certain search method
+
+<application-url>?method=species (possible values include 'facility', 'state', 'zipcode', species', 'special')
+
+### A combination of these values
+
+When a facility and unit are both present in the URL the hunt unit is prioritized.
+
+<application-url>?method=species&query=Moose&state=Maine
+
 ## Data Layers
 
 ### 2019-2020 Hunt Units
