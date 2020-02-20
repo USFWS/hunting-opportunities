@@ -14,7 +14,9 @@ module.exports = (facilities) => {
   const props = facilities[0].properties;
   const huntableUnits = props.units.filter(huntable);
   return `
-    <h2><a href="${props.UrlHunting}" target="_blank">${props.OrgName}</a></h2>
+    <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
+      <h2>${props.OrgName}</h2>
+    </button>
     ${props.physAdd1 ? `<p><strong>${titleCase(props.physAdd1)} <br>${titleCase(props.physCity)}, ${props.State_Label} ${props.physZip}</strong></p>` : ''}
     <p>${props.DescHunt ? props.DescHunt : ''}</p>
     ${huntableUnits.length ? '<h3>Refuge units open to hunting</h3>' : '<p>There are no huntable units at this facility.</p>'}

@@ -29,7 +29,7 @@ const createHuntUnitItem = (unit, urlHunting) => `
 const createFacilityItem = (facility) => {
   if (!facility) return;
   return `
-    ${facility.url ? `<h3><a href="${facility.url}" target="_blank"> ${facility.name} in ${facility.state}</a></h3>` : ''}
+    ${facility.url ? `<button class="zoom-to-refuge hidden-button" value="${facility.orgCode}"><h3>${facility.name} in ${facility.state}</h3></button>` : ''}
     ${facility.units.map((u) => createHuntUnitItem(u, facility.urlHunting)).join('')}
   `;
 };
