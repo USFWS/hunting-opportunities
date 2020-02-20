@@ -1,43 +1,102 @@
 const L = require('leaflet');
 const querystring = require('query-string');
-const camelCase = require('camel-case');
+const { camelCase } = require('camel-case');
 
 const emitter = require('./emitter');
 const GLOBAL_BOUNDS = require('./bounds');
+const { getHuntUnitByObjectIds, getRefugeInfoByName } = require('./HuntService');
 
-const stateToBounds = (state) => GLOBAL_BOUNDS[camelCase(state)];
+const DeepLink = function (window) {
+  this.history = window.history;
+  this.window = window;
 
-const boundsReducer = (bounds, val) => bounds.extend(val);
+  this.window.addEventListener('popstate', this.historyHandler.bind(this));
+  emitter.on('search:state', (e) => this.updateHistory({ type: 'query', method: 'state', data: e }));
+  emitter.on('search:species', (e) => this.updateHistory({ type: 'query', method: 'species', data: e }));
+  emitter.on('search:zipcode', (e) => this.updateHistory({ type: 'query', method: 'zipcode', data: e }));
+  emitter.on('search:special', (e) => this.updateHistory({ type: 'query', method: 'special', data: e }));
+  emitter.on('search:facility', (e) => this.updateHistory({ type: 'query', method: 'facility', data: e }));
+  emitter.on('clear:query', (e) => this.updateHistory({ type: 'query', data: e }))
 
-const getBounds = (state) => {
-  if (typeof state === 'string') emitter.emit('set:bounds', GLOBAL_BOUNDS[camelCase(state)]);
+  // Click comes from a map, zoom comes from a button in the results
+  emitter.on('click:huntunit', (e) => this.updateHistory({ type: 'unit', data: e.OBJECTID }));
+  emitter.on('zoom:unit', (e) => this.updateHistory({ type: 'unit', data: e.id }));
+  emitter.on('click:refuge', (e) => this.updateHistory({ type: 'facility', data: e.OrgName }));
+  emitter.on('zoom:refuge', (e) => this.updateHistory({ type: 'facility', data: e.properties.OrgName }));
+};
+
+// Maybe run an initialize function that sets up the query string when the map opens
+
+DeepLink.prototype.updateHistory = function (update, type) {
+  const params = {
+    ...querystring.parse(this.window.location.search),
+    ...(update.method && { method: update.method }),
+    ...(update.type === 'query' && { query: update.data }),
+    ...(update.type === 'unit' && { unit: update.data }),
+    ...(update.type === 'facility' && { facility: update.data }),
+  }
+  if (update.type !== 'unit' && update.type !== 'facility') {
+    if (params.facility) delete params.facility;
+    if (params.unit) delete params.unit;
+  }
+  if (!params.query) delete params.query;
+  const string = querystring.stringify(params).replace(/%20/g, '+');
+  this.history.pushState(params, null, `/?${string}`);
+}
+
+DeepLink.prototype.historyHandler = function ({ state }) {
+  if (!state) return;
+
+  emitter.emit('update:search', {
+    ...(state.query && { query: state.query }),
+    ...(state.method && { method: state.method })
+  });
+
+  if (state.facility && state.unit || !state.facility && state.unit) {
+    getHuntUnitByObjectIds(state.unit)
+      .then((json) => emitter.emit('set:bounds', L.geoJSON(json).getBounds()));
+  }
+
+  if (state.facility && !state.unit) {
+    getRefugeInfoByName(state.facility)
+      .then((json) => emitter.emit('set:bounds', L.geoJSON(json).getBounds()));
+  }
+};
+
+DeepLink.prototype.stateToBounds = function (state) {
+  return GLOBAL_BOUNDS[camelCase(state)] || false;
+};
+
+DeepLink.prototype.processQueryString = function (qs) {
+  const parsed = querystring.parse(qs);
+
+  if (parsed.state) emitter.emit('set:bounds', this.getBounds(parsed.state));
+
+  if (parsed.facility && parsed.unit || !parsed.facility && parsed.unit) {
+    getHuntUnitByObjectIds(parsed.unit)
+      .then((json) => emitter.emit('set:bounds', L.geoJSON(json).getBounds()));
+  }
+
+  if (parsed.facility && !parsed.unit) {
+    getRefugeInfoByName(parsed.facility)
+      .then((json) => emitter.emit('set:bounds', L.geoJSON(json).getBounds()));
+  }
+
+  emitter.emit('update:search', {
+    ...(parsed.query && { query: parsed.query }),
+    ...(parsed.method && { method: parsed.method })
+  });
+};
+
+DeepLink.prototype.getBounds = function (state) {
+  if (typeof state === 'string') return GLOBAL_BOUNDS[camelCase(state)];
   if (Array.isArray(state)) {
-    // ToDo: Error handling -- show a message if zoom doesn't work
-    const stateBounds = state.map(stateToBounds).reduce(boundsReducer, L.latLngBounds());
-    emitter.emit('set:bounds', stateBounds);
+    return state
+      .map(stateToBounds)
+      .filter(Boolean) // filters falsy values out
+      .reduce((bounds, val) => bounds.extend(val), L.latLngBounds());
   }
   return false;
 };
 
-const isState = (obj) => {
-  if (obj.state) getBounds(obj.state);
-  return false;
-};
-
-const isQuery = (obj) => ((obj.query) ? obj.query : false);
-
-const isSearchMethod = (obj) => ((obj.method) ? obj.method : false);
-
-const processQueryString = (qs) => {
-  const parsed = querystring.parse(qs);
-  const query = isQuery(parsed);
-  const searchMethod = isSearchMethod(parsed);
-
-  if (isState(parsed)) getBounds(parsed);
-  if (query) emitter.emit('query', query);
-  if (searchMethod) emitter.emit('method', searchMethod);
-};
-
-module.exports = {
-  processQueryString,
-};
+module.exports = DeepLink;

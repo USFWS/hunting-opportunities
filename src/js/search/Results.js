@@ -37,13 +37,7 @@ const Results = function (opts) {
     this.loading.setAttribute('aria-hidden', 'true');
   };
 
-  emitter.on('click:huntunit', displayHuntUnit);
-  emitter.on('zoom:unit', (unit) => {
-    this.loading.setAttribute('aria-hidden', 'false');
-    HuntService.completeRefugeInfoFromHuntUnit(unit).then(displayHuntUnit);
-  });
-
-  emitter.on('click:refuge', (props) => {
+  const getHuntUnitsAndRenderResults = (props) => {
     this.loading.setAttribute('aria-hidden', 'false');
 
     HuntService.getHuntUnitsByOrgCode(props.OrgCode)
@@ -62,47 +56,90 @@ const Results = function (opts) {
             }], templates.refuge);
           });
       });
-  });
+  }
 
-  emitter.on('search:special', (query) => {
+  emitter.on('click:huntunit', displayHuntUnit);
+  emitter.on('zoom:unit', (unit) => {
     this.loading.setAttribute('aria-hidden', 'false');
-    this.activateInput(this.inputs.specialSelect);
-    HuntService.getSpecialHunts(query)
-      .then(HuntService.completeRefugeInfoFromSpeciesInfo)
-      .then((results) => {
-        this.render(results, templates.huntUnits, query);
-      });
+    HuntService.completeRefugeInfoFromHuntUnit(unit).then(displayHuntUnit);
   });
 
-  emitter.on('search:facility', (query) => {
-    const results = this.find(query);
-    this.activateInput(this.inputs.textInput);
-    this.message.innerHTML = 'Search by station name or state';
-    this.render(results, templates.officeList);
-  });
+  emitter.on('zoom:refuge', ({properties: props}) => getHuntUnitsAndRenderResults(props));
+  emitter.on('click:refuge', getHuntUnitsAndRenderResults);
 
-  emitter.on('search:zipcode', (zipcode) => {
-    this.activateInput(this.inputs.textInput);
-    this.nearest(zipcode);
-  });
+  emitter.on('search:special', this.searchSpecial.bind(this));
+  emitter.on('search:facility', this.searchFacility.bind(this));
+  emitter.on('search:zipcode', this.searchZipcode.bind(this));
+  emitter.on('search:state', this.searchState.bind(this));
+  emitter.on('search:species', this.searchSpecies.bind(this));
 
-  emitter.on('search:state', (query) => {
-    this.loading.setAttribute('aria-hidden', 'false');
-    const results = this.findByState(query);
-    this.activateInput(this.inputs.stateSelect);
-    this.render(results, templates.officeList);
+  // Sets the value of the appropriate input based on an updated query parameter
+  emitter.on('update:search', ({ method, query }) => {
+    const input = this.getInput(method);
+    input.value = query || '';
+    if (method === 'state') this.searchState(query);
+    if (method === 'zipcode') this.searchZipcode(query);
+    if (method === 'facility') this.searchFacility(query);
+    if (method === 'special') this.searchSpecial(query);
+    if (method === 'species') this.searchSpecies(query);
   });
+};
 
-  emitter.on('search:species', (query) => {
-    this.activateInput(this.inputs.speciesSelect);
-    this.loading.setAttribute('aria-hidden', 'false');
-    // Get huntable species by user query, mash it up with data on hunt units
-    HuntService.getHuntableSpecies(query)
-      .then(HuntService.completeRefugeInfoFromSpeciesInfo)
-      .then((results) => {
-        this.render(results, templates.huntUnits, query);
-      });
-  });
+Results.prototype.searchSpecies = function (query) {
+  this.activateInput(this.inputs.speciesSelect);
+  this.loading.setAttribute('aria-hidden', 'false');
+  // Get huntable species by user query, mash it up with data on hunt units
+  HuntService.getHuntableSpecies(query)
+    .then(HuntService.completeRefugeInfoFromSpeciesInfo)
+    .then((results) => {
+      this.render(results, templates.huntUnits, query);
+    });
+};
+
+Results.prototype.searchSpecial = function  (query) {
+  this.loading.setAttribute('aria-hidden', 'false');
+  this.activateInput(this.inputs.specialSelect);
+  HuntService.getSpecialHunts(query)
+    .then(HuntService.completeRefugeInfoFromSpeciesInfo)
+    .then((results) => {
+      this.render(results, templates.huntUnits, query);
+    });
+};
+
+Results.prototype.searchFacility = function  (query) {
+  const results = this.find(query);
+  this.activateInput(this.inputs.textInput);
+  this.message.innerHTML = 'Search by station name or state';
+  this.render(results, templates.officeList);
+}
+
+Results.prototype.searchZipcode = function (zipcode) {
+  this.activateInput(this.inputs.textInput);
+  this.nearest(zipcode);
+}
+
+Results.prototype.searchState = function (query) {
+  this.loading.setAttribute('aria-hidden', 'false');
+  const results = this.findByState(query);
+  this.activateInput(this.inputs.stateSelect);
+  this.render(results, templates.officeList);
+}
+
+Results.prototype.getInput = function (state) {
+  switch (state) {
+    case 'state':
+      return this.inputs.stateSelect;
+    case 'species':
+      return this.inputs.speciesSelect;
+    case 'special':
+      return this.inputs.specialSelect;
+    case 'zipcode':
+      return this.inputs.textInput;
+    case 'facility':
+      return this.inputs.textInput;
+    default:
+      return false;
+  };
 };
 
 Results.prototype.activateInput = function (input) {
@@ -140,6 +177,7 @@ Results.prototype.empty = function () {
 Results.prototype.handleResultClick = function (e) {
   const { classList } = e.target;
   if (classList.contains('facility-icon')) {
+    this.loading.setAttribute('aria-hidden', 'false');
     const facilityName = closest(e.target, '.facility-info').querySelector('.facility-name').textContent;
     const refuge = helpers.findRefugeByName(facilityName, this.data);
     emitter.emit('zoom:refuge', refuge);

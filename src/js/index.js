@@ -2,7 +2,7 @@ const helpers = require('./helpers');
 const Map = require('./Map');
 const Search = require('./search/Search');
 const Results = require('./search/Results');
-const deepLink = require('./deep-link');
+const DeepLink = require('./deep-link');
 const { getUniqueHuntableSpecies } = require('./HuntService');
 const Disclaimer = require('./Disclaimer');
 require('./analytics');
@@ -59,7 +59,9 @@ const init = () => {
         toggleResults,
         content,
       });
-      deepLink.processQueryString(window.location.search);
+
+      const dl = new DeepLink(window);
+      dl.processQueryString(window.location.search);
     });
 };
 
