@@ -5,11 +5,18 @@ const emitter = require('./emitter');
 // gtag('event', <action>, { 'event_category': <category>, 'event_label': <label>, 'value': <value> });
 
 // Entered search term (3 seconds after they finish typing)
-emitter.on('search:term', (query) => {
-  analytics('event', 'search:query', {
-    event_label: query,
-    event_category: 'Hunting Opportunities Mapper'
-  });
+emitter.on('search:term', ({ query, type }) => {
+  if (type === 'zipcode') {
+    analytics('event', 'search:zipcode', {
+      event_label: query,
+      event_category: 'Hunting Opportunities Mapper'
+    });
+  } else {
+    analytics('event', 'search:query', {
+      event_label: query,
+      event_category: 'Hunting Opportunities Mapper'
+    });
+  }
 });
 
 // Selected state from dropdown

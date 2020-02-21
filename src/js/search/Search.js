@@ -17,7 +17,12 @@ const Search = function (opts) {
   this.radios.forEach((r) => r.addEventListener('click', (e) => this.toggleSearchInterface(e.target.value)));
 
   // Analytics events
-  this.input.addEventListener('input', debounce((e) => { emitter.emit('search:term', e.target.value); }, 2500));
+  this.input.addEventListener('input', debounce((e) => {
+    emitter.emit('search:term', {
+      query: e.target.value,
+      type: this.state
+    });
+  }, 2500));
 
   // Select the appropriate radio button based on an updated query parameter
   emitter.on('update:search', (params) => {
