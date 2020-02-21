@@ -109,6 +109,7 @@ Results.prototype.searchSpecial = function  (query) {
 
 Results.prototype.searchFacility = function  (query) {
   const results = this.find(query);
+  if (!results) return;
   this.activateInput(this.inputs.textInput);
   this.message.innerHTML = 'Search by station name or state';
   this.render(results.sort(helpers.sortByName), templates.officeList);
