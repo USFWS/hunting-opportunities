@@ -65,12 +65,10 @@ const Map = function (opts) {
   }).addTo(this.map);
 
   layers.natGeo.addTo(this.map);
-  // layers.refuges.addTo(this.map);
   layers.huntUnits.addTo(this.map);
   layers.amenities.addTo(this.map);
 
   L.control.layers(layers.basemaps, {
-    'Refuge boundaries': layers.refuges,
     'Refuge amenities': layers.amenities,
     'Current hunt unit': this.currentHuntUnits,
     'Hunt units': layers.huntUnits,
