@@ -6,7 +6,7 @@ const emitter = require('./emitter');
 
 // Entered search term (3 seconds after they finish typing)
 emitter.on('search:term', (query) => {
-  analytics('event', 'search:state', {
+  analytics('event', 'search:query', {
     event_label: query,
     event_category: 'Hunting Opportunities Mapper'
   });
