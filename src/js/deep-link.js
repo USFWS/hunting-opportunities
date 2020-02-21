@@ -41,7 +41,7 @@ DeepLink.prototype.updateHistory = function (update, type) {
   }
   if (!params.query) delete params.query;
   const string = querystring.stringify(params).replace(/%20/g, '+');
-  this.history.pushState(params, null, `/?${string}`);
+  this.history.pushState(params, null, `/refuges/hunting/map/?${string}`);
 }
 
 DeepLink.prototype.historyHandler = function ({ state }) {
