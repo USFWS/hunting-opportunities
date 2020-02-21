@@ -47,7 +47,7 @@ emitter.on('zoom:refuge', (refuge) => {
 // Selected refuge from map
 emitter.on('click:refuge', (refuge) => {
   analytics('event', 'click:refuge', {
-    event_label: refuge,
+    event_label: refuge.OrgName,
     event_category: 'Hunting Opportunities Mapper'
   });
 });
