@@ -34,7 +34,7 @@ const amenities = esri.featureLayer({
   where: 'Category IN (36,35,1,2,3,34,32,28,7,8,9,10,11,24,16,33,18,27,20,45)',
 });
 
-const huntUnits = esri.featureLayer({
+const huntUnitOptions = {
   url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1',
   minZoom: 10,
   style: (feat) => {
@@ -54,8 +54,14 @@ const huntUnits = esri.featureLayer({
         emitter.emit('click:huntunit', data);
       });
     });
-    // layer.bindPopup(`<p>${feature.properties.HuntUnit}</p>`);
   },
+};
+
+const huntUnits = esri.featureLayer(huntUnitOptions);
+const huntUnitsAlaska = esri.featureLayer({
+  ...huntUnitOptions,
+  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits_AK_Simplified/FeatureServer/0',
+  minZoom: 5
 });
 
 const basemaps = {
@@ -72,4 +78,5 @@ module.exports = {
   basemaps,
   amenities,
   huntUnits,
+  huntUnitsAlaska,
 };

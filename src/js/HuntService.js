@@ -41,6 +41,14 @@ const getHuntUnitsByOrgCode = (orgCode) => {
     .catch(console.log);
 };
 
+const getHuntUnitsByRelatedGUID = (guid) => {
+  const API_URL = `${HUNT_UNIT_URL}query?where=RelateGUID%3D%27${guid}%27&outFields=*&f=pgeojson`;
+  return fetch(API_URL)
+    .then((res) => res.json())
+    .then((data) => data.features)
+    .catch(console.log);
+}
+
 const getHuntUnitByObjectIds = (objectIds) => {
   const API_URL = `${HUNT_UNIT_URL}query?objectIds=${objectIds}&outFields=*&f=pgeojson`;
   return fetch(API_URL)
@@ -160,6 +168,7 @@ const completeRefugeInfoFromSpeciesInfo = (hunts) => {
 module.exports = {
   getHuntUnitsByOrgCode,
   getHuntUnitByObjectIds,
+  getHuntUnitsByRelatedGUID,
   getRelatedHuntableSpecies,
   getUniqueHuntableSpecies,
   getHuntableSpecies,

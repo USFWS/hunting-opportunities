@@ -55,6 +55,9 @@
     "watchify": "^3.11.1"
   },
   "dependencies": {
+    "@turf/bbox-polygon": "^6.0.1",
+    "@turf/boolean-point-in-polygon": "^6.0.1",
+    "@turf/helpers": "^6.1.4",
     "array-unique": "^0.3.2",
     "camel-case": "^4.0.1",
     "closest": "0.0.1",

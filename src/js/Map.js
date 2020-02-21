@@ -1,10 +1,13 @@
 const L = require('leaflet');
+const pointInPolygon = require('@turf/boolean-point-in-polygon').default;
+const bboxPolygon = require('@turf/bbox-polygon').default;
+const { polygon, point } = require('@turf/helpers');
 
 const emitter = require('./emitter');
 const layers = require('./layers');
 const icons = require('./icons');
-const GLOBAL_BOUNDS = require('./bounds');
-const { getHuntUnitByObjectIds } = require('./HuntService');
+const { initialBounds, alaskaBbox } = require('./bounds');
+const { getHuntUnitsByRelatedGUID } = require('./HuntService');
 
 const emptyGeojson = {
   type: 'FeatureCollection',
@@ -27,7 +30,7 @@ const onEachFeature = (feat, layer) => {
 };
 
 const Map = function (opts) {
-  this.map = L.map('map', { zoomControl: false }).fitBounds(GLOBAL_BOUNDS.init);
+  this.map = L.map('map', { zoomControl: false }).fitBounds(initialBounds);
   this.data = opts.data;
 
   this.map.createPane('hunt-units');
@@ -74,6 +77,23 @@ const Map = function (opts) {
   }).addTo(this.map);
   L.control.zoom({ position: 'topright' }).addTo(this.map);
 
+  this.map.on('moveend', (e) => {
+    const center = e.target.getCenter();
+    const polygon = bboxPolygon(alaskaBbox);
+    const pt = point([center.lng, center.lat]);
+    if (pointInPolygon(pt, polygon)) {
+      if (this.map.hasLayer(layers.huntUnits)) {
+        layers.huntUnits.remove();
+        layers.huntUnitsAlaska.addTo(this.map);
+      }
+    } else {
+      if (this.map.hasLayer(layers.huntUnitsAlaska)) {
+        layers.huntUnitsAlaska.remove();
+        layers.huntUnits.addTo(this.map);
+      }
+    }
+  })
+
   emitter.on('set:bounds', (bounds) => this.map.fitBounds(bounds));
 
   emitter.on('found:zipcode', (geojson) => {
@@ -114,7 +134,7 @@ const Map = function (opts) {
   });
 
   emitter.on('click:huntunit', (data) => {
-    getHuntUnitByObjectIds(data.OBJECTID).then((units) => emitter.emit('zoom:unit', units[0]));
+    getHuntUnitsByRelatedGUID(data.RelateGUID).then((units) => emitter.emit('zoom:unit', units[0]));
   });
 
   let lastZoom;
