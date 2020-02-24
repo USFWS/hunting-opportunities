@@ -4,7 +4,7 @@ const emitter = require('./emitter');
 // Google Custom Events (https://developers.google.com/analytics/devguides/collection/gtagjs/events)
 // gtag('event', <action>, { 'event_category': <category>, 'event_label': <label>, 'value': <value> });
 
-// Entered search term (3 seconds after they finish typing)
+// Entered search term (2.5 seconds after they finish typing)
 emitter.on('search:term', ({ query, type }) => {
   if (type === 'zipcode') {
     analytics('event', 'search:zipcode', {
