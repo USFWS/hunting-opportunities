@@ -13,7 +13,6 @@ const createListItem = (unit) => `
 module.exports = (facilities) => {
   const props = facilities[0].properties;
   const huntableUnits = props.units.filter(huntable);
-  console.log(props);
   return `
     <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
       <h2>${props.OrgName}</h2>
