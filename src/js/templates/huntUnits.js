@@ -3,7 +3,7 @@ const helpers = require('../helpers');
 const createHuntingOpportunityItem = (opp, urlHunting) => {
   const regs = [opp.MethodOfTake, opp.DateTime, opp.BagLimits].map(helpers.matchesStateRegs);
   return `
-    <p><strong>${opp.Label}</strong></p>
+    <p><strong>${opp.Species}</strong></p>
     <ul class="huntable-species-list">
       ${regs[0] ? '' : `<li>Method of take: <a href="${urlHunting}" target="_blank">${opp.MethodOfTake}</a></li>`}
       ${regs[1] ? '' : `<li>Date & times: <a href="${urlHunting}" target="_blank">${opp.DateTime}</a></li>`}
