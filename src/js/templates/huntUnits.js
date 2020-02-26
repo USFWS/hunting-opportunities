@@ -13,7 +13,7 @@ const createHuntingOpportunityItem = (opp, urlHunting) => {
 
 const createHuntUnitItem = (unit, urlHunting) => `
     <ul class="hunt-unit-info">
-      <li><strong>Hunt unit: ${unit.HuntUnit}</strong></li>
+      <li><strong>Hunt unit: ${unit.HuntUnit.replace('_', ' ')}</strong></li>
       <li>
       ${unit.OBJECTID
     ? `<button class="zoom-to-hunt-unit hidden-button" value="${unit.OBJECTID}">
