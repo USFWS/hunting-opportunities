@@ -12,19 +12,19 @@ const createHuntingOpportunityItem = (opp, urlHunting) => {
 };
 
 const createHuntUnitItem = (unit, urlHunting) => `
-    <ul class="hunt-unit-info">
-      <li><strong>Hunt unit: ${unit.HuntUnit.replace('_', ' ')}</strong></li>
-      <li>
-      ${unit.OBJECTID
-    ? `<button class="zoom-to-hunt-unit hidden-button" value="${unit.OBJECTID}">
-          <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
-        </button>`
-    : ''}
-      </li>
-    </ul>
+  <ul class="hunt-unit-info">
+    <li><strong>Hunt unit: ${unit.HuntUnit.replace('_', ' ')}</strong></li>
+    <li>
+    ${unit.OBJECTID
+  ? `<button class="zoom-to-hunt-unit hidden-button" value="${unit.OBJECTID}">
+        <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
+      </button>`
+  : ''}
+    </li>
+  </ul>
 
-    ${unit.opportunities.map((o) => createHuntingOpportunityItem(o, urlHunting)).join('')}
-  `;
+  ${unit.opportunities.map((o) => createHuntingOpportunityItem(o, urlHunting)).join('')}
+`;
 
 const createFacilityItem = (facility) => {
   if (!facility) return;
