@@ -1,4 +1,4 @@
-const ArcGIS = require('terraformer-arcgis-parser');
+// const ArcGIS = require('terraformer-arcgis-parser');
 const { unique, uniqueBy, getStateName } = require('./helpers');
 
 const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1/';
@@ -106,22 +106,23 @@ const getSpecialHunts = (query) => {
     .catch(console.log);
 };
 
-const combineSpeciesAndHuntUnit = (huntData) => huntData.hunts.map((s) => {
-  const huntUnit = huntData.units.find((u) => u.objectId === s.OBJECTID);
-  if (!huntUnit) {
-    console.log(s.OBJECTID);
-    return null;
-  }
-  const geojson = ArcGIS.parse(huntUnit.relatedRecords[0]);
-  console.log(huntUnit);
-  return {
-    ...geojson,
-    properties: {
-      ...s,
-      ...geojson.properties,
-    },
-  };
-});
+// const combineSpeciesAndHuntUnit = (huntData) => huntData.hunts.map((s) => {
+//   const huntUnit = huntData.units.find((u) => u.objectId === s.OBJECTID);
+//   if (!huntUnit) {
+//     console.log(s.OBJECTID);
+//     return null;
+//   }
+//   console.log(huntUnit.relatedRecords[0])
+//   // const geojson = ArcGIS.parse(huntUnit.relatedRecords[0]);
+//   console.log(huntUnit);
+//   return {
+//     // ...geojson,
+//     properties: {
+//       ...s,
+//       // ...geojson.properties,
+//     },
+//   };
+// });
 
 const completeRefugeInfoFromHuntUnit = (unit) => {
   const getSpecies = getRelatedHuntableSpecies(unit.id);
@@ -173,7 +174,7 @@ module.exports = {
   getUniqueHuntableSpecies,
   getHuntableSpecies,
   getHuntUnitFromSpeciesData,
-  combineSpeciesAndHuntUnit,
+  // combineSpeciesAndHuntUnit,
   getSpecialHunts,
   getRefugeInfoByOrgCode,
   completeRefugeInfoFromHuntUnit,
