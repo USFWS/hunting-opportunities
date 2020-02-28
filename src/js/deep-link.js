@@ -64,6 +64,7 @@ DeepLink.prototype.historyHandler = function ({ state }) {
 };
 
 DeepLink.prototype.stateToBounds = function (state) {
+  console.log(state);
   return GLOBAL_BOUNDS[camelCase(state)] || false;
 };
 
@@ -82,10 +83,11 @@ DeepLink.prototype.processQueryString = function (qs) {
       .then((json) => emitter.emit('set:bounds', L.geoJSON(json).getBounds()));
   }
 
-  emitter.emit('update:search', {
-    ...(parsed.query && { query: parsed.query }),
-    ...(parsed.method && { method: parsed.method })
-  });
+  const params = {};
+  if (parsed.query) params.query = parsed.query;
+  if (parsed.query) params.method = parsed.method;
+
+  emitter.emit('update:search', params);
 };
 
 DeepLink.prototype.getBounds = function (state) {
