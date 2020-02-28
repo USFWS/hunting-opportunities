@@ -3,6 +3,24 @@
   "version": "1.0.0",
   "description": "A map that helps citizens find hunting opportunities on National Wildlife Refuges.",
   "main": "index.js",
+  "browserslist": [
+    "defaults"
+  ],
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "@babel/env"
+          ],
+          "plugins": [
+            "@babel/plugin-proposal-object-rest-spread"
+          ]
+        }
+      ]
+    ]
+  },
   "scripts": {
     "create:dist": "mkdirp dist/js dist/images/svg dist/css dist/fonts",
     "copy:fonts": "ncp src/fonts dist/fonts",
@@ -13,7 +31,9 @@
     "svg:optimize": "svgo -f src/images/svg dist/images/svg",
     "svg:sprite": "svg-sprite-generate -d dist/images/svg/ -o dist/images/svg/sprite.svg",
     "svg:inject": "node build/inject-sprite.js",
-    "build:js": "browserify src/js/index.js | uglifyjs -mc > dist/js/bundle.js",
+    "build:js": "npm run transpile:js && npm run uglify:js",
+    "transpile:js": "node build/browserify.js",
+    "uglify:js": "uglifyjs dist/js/bundle.js -mc > dist/js/bundle.min.js",
     "watch:js": "watchify src/js/index.js -dv -o dist/js/bundle.js",
     "watch:html": "watch 'npm run build:html' src/html",
     "build:html": "htmlmin src/html/index.html -o dist/index.html",
@@ -32,7 +52,10 @@
   "author": "@r0yhewitt <roy_hewitt@fws.gov>",
   "license": "SAX-PD",
   "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
     "autoprefixer": "^9.7.3",
+    "babelify": "^10.0.0",
     "browser-sync": "^2.26.7",
     "browserify": "^16.5.0",
     "cheerio": "^1.0.0-rc.3",
@@ -59,7 +82,7 @@
     "@turf/boolean-point-in-polygon": "^6.0.1",
     "@turf/helpers": "^6.1.4",
     "array-unique": "^0.3.2",
-    "camel-case": "^4.0.1",
+    "camel-case": "^4.1.1",
     "closest": "0.0.1",
     "debounce": "^1.2.0",
     "esri-leaflet": "^2.3.2",
@@ -74,7 +97,6 @@
     "lodash.uniqby": "^4.7.0",
     "madison": "^2.0.0",
     "query-string": "^6.9.0",
-    "terraformer-arcgis-parser": "^1.1.0",
     "to-title-case": "^1.0.0"
   }
 }
