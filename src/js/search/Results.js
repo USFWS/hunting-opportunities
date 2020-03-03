@@ -77,7 +77,7 @@ const Results = function (opts) {
   // Sets the value of the appropriate input based on an updated query parameter
   emitter.on('update:search', ({ method, query }) => {
     const input = this.getInput(method);
-    input.value = query || '';
+    if (input) input.value = query || '';
     if (method === 'state') this.searchState(query);
     if (method === 'zipcode') this.searchZipcode(query);
     if (method === 'facility') this.searchFacility(query);
