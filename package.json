@@ -31,7 +31,7 @@
     "build:js": "npm run transpile:js && npm run uglify:js",
     "transpile:js": "node build/browserify.js",
     "uglify:js": "uglifyjs dist/js/bundle.js -mc > dist/js/bundle.min.js",
-    "watch:js": "watchify src/js/index.js -dv -o dist/js/bundle.js",
+    "watch:js": "watchify src/js/index.js -dv -o dist/js/bundle.min.js",
     "watch:html": "watch 'npm run build:html' src/html",
     "build:html": "htmlmin src/html/index.html -o dist/index.html",
     "prewatch:styles": "npm run build:styles",
