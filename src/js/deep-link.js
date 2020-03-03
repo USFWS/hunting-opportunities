@@ -64,7 +64,6 @@ DeepLink.prototype.historyHandler = function ({ state }) {
 };
 
 DeepLink.prototype.stateToBounds = function (state) {
-  console.log(state);
   return GLOBAL_BOUNDS[camelCase(state)] || false;
 };
 
@@ -94,7 +93,7 @@ DeepLink.prototype.getBounds = function (state) {
   if (typeof state === 'string') return GLOBAL_BOUNDS[camelCase(state)];
   if (Array.isArray(state)) {
     return state
-      .map(stateToBounds)
+      .map(this.stateToBounds)
       .filter(Boolean) // filters falsy values out
       .reduce((bounds, val) => bounds.extend(val), L.latLngBounds());
   }
