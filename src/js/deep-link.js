@@ -84,7 +84,7 @@ DeepLink.prototype.processQueryString = function (qs) {
 
   const params = {};
   if (parsed.query) params.query = parsed.query;
-  if (parsed.query) params.method = parsed.method;
+  if (parsed.method) params.method = parsed.method;
 
   emitter.emit('update:search', params);
 };
