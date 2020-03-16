@@ -1,13 +1,16 @@
 const helpers = require('../helpers');
 
 const createListItem = (info) => {
+  console.log(info);
   const regs = [info.MethodOfTake, info.DateTime, info.BagLimits].map(helpers.matchesStateRegs);
+  const isOpen = info.Access.includes('Open');
   return `
     <h4><strong>${info.Species}</strong></h4>
     <ul class="huntable-species-list">
       ${regs[0] ? '' : `<li>Method of take: <a href="${info.url}" target="_blank">${info.MethodOfTake}</a></li>`}
       ${regs[1] ? '' : `<li>Date & times: <a href="${info.url}" target="_blank">${info.DateTime}</a></li>`}
       ${regs[2] ? '' : `<li>Bag limit: <a href="${info.url}" target="_blank">${info.BagLimits}</a></li>`}
+      ${!isOpen ? `<li>Access: <a href="${info.url}" target="_blank">${info.Label}</a></li>` : '' }
     </ul>
   `;
 };
