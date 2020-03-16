@@ -13,10 +13,12 @@ const createListItem = (unit) => `
 module.exports = (facilities) => {
   const props = facilities[0].properties;
   const huntableUnits = props.units.filter(huntable);
+  console.log(props);
   return `
     <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
       <h2>${props.OrgName}</h2>
     </button>
+    <p><a href="${props.UrlStation}" target="_blank">Visit us on the web</a></p>
     ${props.physAdd1 ? `<p><strong>${titleCase(props.physAdd1)} <br>${titleCase(props.physCity)}, ${getStateName(props.physStateAbbr)} ${props.physZip}</strong></p>` : ''}
     <p>${props.DescHunt ? props.DescHunt : ''}</p>
     ${huntableUnits.length ? '<h3>Refuge units open to hunting</h3>' : '<p>There are no huntable units at this facility.</p>'}
