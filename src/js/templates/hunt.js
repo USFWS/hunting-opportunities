@@ -1,7 +1,6 @@
 const helpers = require('../helpers');
 
 const createListItem = (info) => {
-  console.log(info);
   const regs = [info.MethodOfTake, info.DateTime, info.BagLimits].map(helpers.matchesStateRegs);
   const isOpen = info.Access.includes('Open');
   return `
@@ -19,6 +18,7 @@ module.exports = (props) => `
   <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
     <h2>${props.OrgName}</h2>
   </button>
+  <p><a href="${props.UrlStation}" target="_blank">Visit us on the web</a></p>
   <p><strong>Hunt unit: ${props.HuntUnit.replace('_', ' ')} (${helpers.formatAcreage(props.Acreage)} acres)</strong></p>
   ${props.Huntable === 'No' ? '<p><strong>Hunting is not permitted on this unit</strong></p>' : ''}
   ${props.facility.DescHunt ? `<p>${props.facility.DescHunt}</p>` : ''}
