@@ -36,6 +36,7 @@ const getHuntUnitsByOrgCode = (orgCode) => {
   const API_URL = `${HUNT_UNIT_URL}query?outFields=*&f=pgeojson&where=OrgCode=${orgCode}`;
   return fetch(API_URL)
     .then((res) => res.json())
+    .then((res) => {console.log(res); return res;})
     .then((geojson) => geojson.features)
     .then((features) => features.map((f) => f.properties))
     .catch(console.log);
