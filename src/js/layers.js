@@ -34,6 +34,12 @@ const amenities = esri.featureLayer({
   where: `Category IN (36,35,1,2,3,5,6,34,32,28,7,8,9,10,11,24,16,33,18,27,20,45) AND Public_Use NOT IN ('Non-public Use')`,
 });
 
+const wilderness = esri.featureLayer({
+  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWSWilderness/FeatureServer/2',
+  minZoom: 8,
+  onEachFeature: (feature, layer) => layer.bindPopup(`<p>${feature.properties.DESNAME}</p>`),
+})
+
 const huntUnitOptions = {
   url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1',
   minZoom: 10,
@@ -79,4 +85,5 @@ module.exports = {
   amenities,
   huntUnits,
   huntUnitsAlaska,
+  wilderness
 };
