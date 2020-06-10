@@ -72,6 +72,7 @@ const Map = function (opts) {
     'Refuge amenities': layers.amenities,
     'Current hunt unit': this.currentHuntUnits,
     'Hunt units': layers.huntUnits,
+    'Wilderness units': layers.wilderness
   }).addTo(this.map);
   L.control.zoom({ position: 'topright' }).addTo(this.map);
 
