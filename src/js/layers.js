@@ -46,9 +46,9 @@ const huntUnitOptions = {
   style: (feat) => {
     switch (feat.properties.Huntable) {
       case 'No':
-        return { fillColor: '#FF6666', color: '#eee', weight: 3 };
+        return { fillColor: '#FF6666', color: '#000', weight: 3 };
       default:
-        return { fillColor: '#0f4c81', color: '#eee', weight: 3 };
+        return { fillColor: '#0f4c81', color: '#000', weight: 3 };
     }
   },
   pane: 'hunt-units',
