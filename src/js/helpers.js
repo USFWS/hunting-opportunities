@@ -69,6 +69,12 @@ const capitalize = (s) => {
 
 const matchesStateRegs = (val) => val.toLowerCase() === 'state regulations apply';
 
+const oxfordCommaStateList = (stateString) => stateString
+  .split('/')
+  .map(getStateName)
+  .join(', ')
+  .replace(/, ([^,]*)$/, ' and $1');
+
 module.exports = {
   flatten,
   unique,
@@ -86,4 +92,5 @@ module.exports = {
   capitalize,
   matchesStateRegs,
   groupBy,
+  oxfordCommaStateList
 };
