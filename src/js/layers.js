@@ -40,8 +40,9 @@ const wilderness = esri.featureLayer({
   onEachFeature: (feature, layer) => layer.bindPopup(`<p>${feature.properties.DESNAME}</p>`),
 })
 
+//https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer
 const huntUnitOptions = {
-  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1',
+  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NRWS_HQ_PubHuntUnits_QAQC2021/FeatureServer/0/?token=P5AQ4J-cTkKz3HACJTXQkq82qp1XZXPl9_17VjzISg6Ijm8C687JB33JXKFc_7JrRPcxwNvNYg2QDwf0gjCjlqMBGc0OvOV0mvtx1WwYZel-avGqApFexXCjISk_jBM02nc3Qkur3a25ZcfZpTZO8QY4TkRJX_XKwZ6x2zAsPpqk64qzHbv7YAlJcHp-4xSaknyLlfLw6X9DmmgPtTIg0buWz_8MoAXvcuouo5pikZaew8pS2A1xmKWe_Z-BCS49',
   minZoom: 10,
   style: (feat) => {
     switch (feat.properties.Huntable) {
@@ -53,7 +54,7 @@ const huntUnitOptions = {
   },
   pane: 'hunt-units',
   onEachFeature: (feature, layer) => {
-    layer.bindTooltip(feature.properties.HuntUnit, { permanent: true });
+    layer.bindTooltip(feature.properties.Hunt_Unit_Name, { permanent: true });
     layer.on('click', (e) => {
       // Get info on huntable species, append it to info about the hunt unit
       completeRefugeInfoFromHuntUnit(feature).then((data) => {
@@ -64,9 +65,10 @@ const huntUnitOptions = {
 };
 
 const huntUnits = esri.featureLayer(huntUnitOptions);
+// https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits_AK_Simplified/FeatureServer/0
 const huntUnitsAlaska = esri.featureLayer({
   ...huntUnitOptions,
-  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits_AK_Simplified/FeatureServer/0',
+  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_USFWS_HQ_PubHuntUnits_AK_QAQC2021/FeatureServer/0/?token=P5AQ4J-cTkKz3HACJTXQkq82qp1XZXPl9_17VjzISg6Ijm8C687JB33JXKFc_7JrRPcxwNvNYg2QDwf0gjCjlqMBGc0OvOV0mvtx1WwYZel-avGqApFexXCjISk_jBM02nc3Qkur3a25ZcfZpTZO8QY4TkRJX_XKwZ6x2zAsPpqk64qzHbv7YAlJcHp-4xSaknyLlfLw6X9DmmgPtTIg0buWz_8MoAXvcuouo5pikZaew8pS2A1xmKWe_Z-BCS49',
   minZoom: 5
 });
 
