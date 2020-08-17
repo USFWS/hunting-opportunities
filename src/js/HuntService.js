@@ -1,9 +1,11 @@
 // const ArcGIS = require('terraformer-arcgis-parser');
-const { unique, uniqueBy, getStateName } = require('./helpers');
-
-const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1/';
-const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/2/';
-const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/';
+const { unique, uniqueBy, getStateName, oxfordCommaStateList } = require('./helpers');
+// const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1/';
+// const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/2/';
+// const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/';
+const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/il1VpLkizzxT0I5JI1QpolyView/FeatureServer/0/';
+const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/il1VpLkizzxT0I5JI1QpolyView/FeatureServer/1/';
+const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/Ba607b52d76b4dba9b92b4f1ca50ab7dPoint_View/FeatureServer/0/';
 
 const getRefugeInfoByName = (orgName) => {
   const API_URL = `${HUNTING_OPP_URL}query?outFields=*&f=pgeojson&where=OrgName='${orgName}'`;
@@ -33,10 +35,9 @@ const getRefugesByOrgCodes = (orgCodes) => {
 };
 
 const getHuntUnitsByOrgCode = (orgCode) => {
-  const API_URL = `${HUNT_UNIT_URL}query?outFields=*&f=pgeojson&where=OrgCode=${orgCode}`;
+  const API_URL = `${HUNT_UNIT_URL}query?outFields=*&f=pgeojson&where=Organization_Code=${orgCode}`;
   return fetch(API_URL)
     .then((res) => res.json())
-    .then((res) => {console.log(res); return res;})
     .then((geojson) => geojson.features)
     .then((features) => features.map((f) => f.properties))
     .catch(console.log);
@@ -99,7 +100,7 @@ const getHuntUnitFromSpeciesData = (objectIds) => {
 };
 
 const getSpecialHunts = (query) => {
-  const API_URL = `${SPECIES_TABLE_URL}query?where=Access+like+%27%25${query}%25%27&outFields=*&f=pjson`;
+  const API_URL = `${SPECIES_TABLE_URL}query?where=SpecialOpportunities+like+%27%25${query}%25%27&outFields=*&f=pjson`;
   return fetch(API_URL)
     .then((res) => res.json())
     .then((results) => results.features)
@@ -127,7 +128,7 @@ const getSpecialHunts = (query) => {
 
 const completeRefugeInfoFromHuntUnit = (unit) => {
   const getSpecies = getRelatedHuntableSpecies(unit.id);
-  const getFacility = getRefugeInfoByOrgCode(unit.properties.OrgCode);
+  const getFacility = getRefugeInfoByOrgCode(unit.properties.Organization_Code);
 
   return Promise.all([getSpecies, getFacility]).then(([species, facility]) => ({
     ...unit.properties,
@@ -145,21 +146,23 @@ const completeRefugeInfoFromSpeciesInfo = (hunts) => {
         .map((h) => h.relatedRecords)
         .flat()
         .map((h) => h.attributes);
-      // Get unique orgCodes, format as string separated by commas
-      const orgCodes = unique(units.map((u) => u.OrgCode)).join(',');
+        // Get unique orgCodes, format as string separated by commas
+      // const orgCodes = unique(units.map((u) => u.OrgCode)).join(',');
+      const orgCodes = unique(units.map((u) => u.Organization_Code)).join(',');
       return [units, orgCodes];
     })
     .then(([units, orgCodes]) => getRefugesByOrgCodes(orgCodes)
       .then((res) => res.features)
       .then((facilities) => facilities.map(({ properties: props }) => {
+        const location = props.State.includes('/') ? oxfordCommaStateList(props.State) : getStateName(props.State);
         const uniqueHuntUnits = uniqueBy(units, 'OBJECTID');
         return {
           name: props.OrgName,
           url: props.UrlStation,
           orgCode: props.OrgCode,
           urlHunting: props.UrlHunting,
-          state: getStateName(props.State),
-          units: uniqueHuntUnits.filter((u) => u.OrgName === props.OrgName).map((u) => ({
+          state: location,
+          units: uniqueHuntUnits.filter((u) => u.Organization_Name === props.OrgName).map((u) => ({
             ...u,
             opportunities: hunts.filter((h) => h.RelateGUID === u.RelateGUID),
           })),
