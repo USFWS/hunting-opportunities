@@ -39,13 +39,11 @@ const Results = function (opts) {
 
   const getHuntUnitsAndRenderResults = (props) => {
     this.loading.setAttribute('aria-hidden', 'false');
-    console.log(props);
 
     HuntService.getHuntUnitsByOrgCode(props.OrgCode)
       .then((units) => {
         getByOrgCode(props.OrgCode)
           .then((facility) => {
-            console.log(units)
             this.render([{
               ...facility,
               geometry: { type: 'Point', coordinates: [props.POINT_X, props.POINT_Y] },
