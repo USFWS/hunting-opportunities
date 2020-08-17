@@ -7,15 +7,14 @@ const createListItem = (unit) => `
     <button class="zoom-to-hunt-unit" value=${unit.OBJECTID}>
       <svg class="zoom-icon"><use xlink:href="#zoom"></use></svg>
     </button>
-    <p>${unit.HuntUnit} (${formatAcreage(unit.Acreage)} acres)</p>
+    <p>${unit.Hunt_Unit_Name} (${formatAcreage(unit.Acreage)} acres)</p>
   </li>`;
 
 module.exports = (facilities) => {
   const props = facilities[0].properties;
   const huntableUnits = props.units.filter(huntable);
-  console.log(props);
   return `
-    <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
+    <button class="zoom-to-refuge hidden-button" value="${props.Organization_Code}">
       <h2>${props.OrgName}</h2>
     </button>
     <p><a href="${props.UrlStation}" target="_blank">Visit us on the web</a></p>

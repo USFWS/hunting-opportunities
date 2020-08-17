@@ -9,13 +9,13 @@ const createHuntingOpportunityItem = (opp, urlHunting) => {
       ${regs[0] ? '' : `<li>Method of take: <a href="${urlHunting}" target="_blank">${opp.MethodOfTake}</a></li>`}
       ${regs[1] ? '' : `<li>Date & times: <a href="${urlHunting}" target="_blank">${opp.DateTime}</a></li>`}
       ${regs[2] ? '' : `<li>Bag limit: <a href="${urlHunting}" target="_blank">${opp.BagLimits}</a></li>`}
-      ${!isOpen ? `<li>Access: <a href="${opp.url}" target="_blank">${opp.Label}</a></li>` : '' }
+      ${!isOpen ? `<li>Access: <a href="${opp.url}" target="_blank">${opp.Access}</a></li>` : '' }
     </ul>`;
 };
 
 const createHuntUnitItem = (unit, urlHunting) => `
   <ul class="hunt-unit-info">
-    <li><strong>Hunt unit: ${unit.HuntUnit.replace('_', ' ')}</strong></li>
+    <li><strong>Hunt unit: ${unit.Hunt_Unit_Name.replace('_', ' ')}</strong></li>
     <li>
     ${unit.OBJECTID
   ? `<button class="zoom-to-hunt-unit hidden-button" value="${unit.OBJECTID}">

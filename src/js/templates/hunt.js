@@ -9,17 +9,18 @@ const createListItem = (info) => {
       ${regs[0] ? '' : `<li>Method of take: <a href="${info.url}" target="_blank">${info.MethodOfTake}</a></li>`}
       ${regs[1] ? '' : `<li>Date & times: <a href="${info.url}" target="_blank">${info.DateTime}</a></li>`}
       ${regs[2] ? '' : `<li>Bag limit: <a href="${info.url}" target="_blank">${info.BagLimits}</a></li>`}
-      ${!isOpen ? `<li>Access: <a href="${info.url}" target="_blank">${info.Label}</a></li>` : '' }
+      ${!isOpen ? `<li>Access: <a href="${info.url}" target="_blank">${info.Access}</a></li>` : '' }
     </ul>
   `;
 };
 
-module.exports = (props) => `
-  <button class="zoom-to-refuge hidden-button" value="${props.OrgCode}">
-    <h2>${props.OrgName}</h2>
+module.exports = (props) => {
+  return `
+  <button class="zoom-to-refuge hidden-button" value="${props.Organization_Code}">
+    <h2>${props.Organization_Name}</h2>
   </button>
-  <p><a href="${props.URL}" target="_blank">Visit us on the web</a></p>
-  <p><strong>Hunt unit: ${props.HuntUnit.replace('_', ' ')} (${helpers.formatAcreage(props.Acreage)} acres)</strong></p>
+  <p><a href="${props.Station_Website}" target="_blank">Visit us on the web</a></p>
+  <p><strong>Hunt unit: ${props.Hunt_Unit_Name.replace('_', ' ')} (${helpers.formatAcreage(props.Acreage)} acres)</strong></p>
   ${props.Huntable === 'No' ? '<p><strong>Hunting is not permitted on this unit</strong></p>' : ''}
   ${props.facility.DescHunt ? `<p>${props.facility.DescHunt}</p>` : ''}
   ${props.species && props.species.length ? '<h3>Huntable species</h3>' : ''}
@@ -27,4 +28,4 @@ module.exports = (props) => `
   ${props.species
     .map((species) => createListItem({ ...species, url: props.facility.properties.UrlHunting }))
     .join('')
-}`;
+}`};
