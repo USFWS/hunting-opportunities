@@ -1,11 +1,7 @@
-// const ArcGIS = require('terraformer-arcgis-parser');
 const { unique, uniqueBy, getStateName, oxfordCommaStateList } = require('./helpers');
-// const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/1/';
-// const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer/2/';
-// const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer/0/';
-const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/il1VpLkizzxT0I5JI1QpolyView/FeatureServer/0/';
-const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/il1VpLkizzxT0I5JI1QpolyView/FeatureServer/1/';
-const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/Ba607b52d76b4dba9b92b4f1ca50ab7dPoint_View/FeatureServer/0/';
+const HUNT_UNIT_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_National_2020_2021_Hunt_Units/FeatureServer/0/';
+const SPECIES_TABLE_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_National_2020_2021_Hunt_Units/FeatureServer/1/';
+const HUNTING_OPP_URL = 'https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_National_Hunting_and_Fishing_Opportunities_2020_2021/FeatureServer/0/';
 
 const getRefugeInfoByName = (orgName) => {
   const API_URL = `${HUNTING_OPP_URL}query?outFields=*&f=pgeojson&where=OrgName='${orgName}'`;
@@ -44,7 +40,7 @@ const getHuntUnitsByOrgCode = (orgCode) => {
 };
 
 const getHuntUnitsByRelatedGUID = (guid) => {
-  const API_URL = `${HUNT_UNIT_URL}query?where=RelateGUID%3D%27${guid}%27&outFields=*&f=pgeojson`;
+  const API_URL = `${HUNT_UNIT_URL}query?where=Relate_GUID%3D%27${guid}%27&outFields=*&f=pgeojson`;
   return fetch(API_URL)
     .then((res) => res.json())
     .then((data) => data.features)
@@ -100,7 +96,7 @@ const getHuntUnitFromSpeciesData = (objectIds) => {
 };
 
 const getSpecialHunts = (query) => {
-  const API_URL = `${SPECIES_TABLE_URL}query?where=SpecialOpportunities+like+%27%25${query}%25%27&outFields=*&f=pjson`;
+  const API_URL = `${SPECIES_TABLE_URL}query?where=TargetedDemographic+like+%27%25${query}%25%27&outFields=*&f=pjson`;
   return fetch(API_URL)
     .then((res) => res.json())
     .then((results) => results.features)
@@ -164,7 +160,7 @@ const completeRefugeInfoFromSpeciesInfo = (hunts) => {
           state: location,
           units: uniqueHuntUnits.filter((u) => u.Organization_Name === props.OrgName).map((u) => ({
             ...u,
-            opportunities: hunts.filter((h) => h.RelateGUID === u.RelateGUID),
+            opportunities: hunts.filter((h) => h.Relate_GUID === u.Relate_GUID),
           })),
         };
       })));
