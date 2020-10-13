@@ -46,7 +46,6 @@ const sortByName = (a, b) => {
 const findRefugeByName = (name, data) => data.find((r) => r.properties.OrgName === name);
 
 const featuresToBounds = (features) => {
-  console.log(features);
   if (!features[0].geometry) return null;
   return features.reduce(
     (bounds, feature) => {
@@ -75,6 +74,12 @@ const oxfordCommaStateList = (stateString) => stateString
   .join(', ')
   .replace(/, ([^,]*)$/, ' and $1');
 
+const byHuntableSpecies = (a, b) => {
+  if (a.Species < b.Species) return -1;
+  if (a.Species > b.Species) return 1;
+  return 0;
+}
+
 module.exports = {
   flatten,
   unique,
@@ -92,5 +97,6 @@ module.exports = {
   capitalize,
   matchesStateRegs,
   groupBy,
-  oxfordCommaStateList
+  oxfordCommaStateList,
+  byHuntableSpecies
 };
