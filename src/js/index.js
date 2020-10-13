@@ -24,7 +24,7 @@ const disclaimerWrapper = document.querySelector('.disclaimer-wrapper');
 // https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_HuntFishStation/FeatureServer
 // Start the app
 const init = () => {
-  const API_URL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/Ba607b52d76b4dba9b92b4f1ca50ab7dPoint_View/FeatureServer/0/query?where=OrgType+NOT+IN+%28%27WMD%27%2C+%27RAO%27%2C+%27CA%27%29&outFields=*&f=pgeojson";
+  const API_URL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/FWS_National_Hunting_and_Fishing_Opportunities_2020_2021/FeatureServer/0/query?where=OrgType+NOT+IN+%28%27WMD%27%2C+%27RAO%27%2C+%27CA%27%29&outFields=*&f=pgeojson";
 
   new Disclaimer(disclaimerWrapper);
   getUniqueHuntableSpecies().then((res) => helpers.addOptionsToSelect(res, speciesSelect));
