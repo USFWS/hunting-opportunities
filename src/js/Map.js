@@ -133,7 +133,7 @@ const Map = function (opts) {
   });
 
   emitter.on('click:huntunit', (data) => {
-    getHuntUnitsByRelatedGUID(data.RelateGUID).then((units) => emitter.emit('zoom:unit', units[0]));
+    getHuntUnitsByRelatedGUID(data.Relate_GUID).then((units) => emitter.emit('zoom:unit', units[0]));
   });
 
   let lastZoom;
