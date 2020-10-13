@@ -42,7 +42,7 @@ const wilderness = esri.featureLayer({
 
 //https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits/FeatureServer
 const huntUnitOptions = {
-  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NRWS_HQ_PubHuntUnits_QAQC2021/FeatureServer/0/?token=P5AQ4J-cTkKz3HACJTXQkq82qp1XZXPl9_17VjzISg6Ijm8C687JB33JXKFc_7JrRPcxwNvNYg2QDwf0gjCjlqMBGc0OvOV0mvtx1WwYZel-avGqApFexXCjISk_jBM02nc3Qkur3a25ZcfZpTZO8QY4TkRJX_XKwZ6x2zAsPpqk64qzHbv7YAlJcHp-4xSaknyLlfLw6X9DmmgPtTIg0buWz_8MoAXvcuouo5pikZaew8pS2A1xmKWe_Z-BCS49',
+  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_National_2020_2021_Hunt_Units/FeatureServer/0',
   minZoom: 10,
   style: (feat) => {
     switch (feat.properties.Huntable) {
@@ -68,7 +68,7 @@ const huntUnits = esri.featureLayer(huntUnitOptions);
 // https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_NWRS_HQ_PubHuntUnits_AK_Simplified/FeatureServer/0
 const huntUnitsAlaska = esri.featureLayer({
   ...huntUnitOptions,
-  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_USFWS_HQ_PubHuntUnits_AK_QAQC2021/FeatureServer/0/?token=P5AQ4J-cTkKz3HACJTXQkq82qp1XZXPl9_17VjzISg6Ijm8C687JB33JXKFc_7JrRPcxwNvNYg2QDwf0gjCjlqMBGc0OvOV0mvtx1WwYZel-avGqApFexXCjISk_jBM02nc3Qkur3a25ZcfZpTZO8QY4TkRJX_XKwZ6x2zAsPpqk64qzHbv7YAlJcHp-4xSaknyLlfLw6X9DmmgPtTIg0buWz_8MoAXvcuouo5pikZaew8pS2A1xmKWe_Z-BCS49',
+  url: 'https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/FWS_National_2020___2021_Hunt_Units___Alaska_Simplified/FeatureServer/0/',
   minZoom: 5
 });
 
