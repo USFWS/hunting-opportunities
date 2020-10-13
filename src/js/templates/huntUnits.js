@@ -1,15 +1,14 @@
 const helpers = require('../helpers');
 
 const createHuntingOpportunityItem = (opp, urlHunting) => {
-  const regs = [opp.MethodOfTake, opp.DateTime, opp.BagLimits].map(helpers.matchesStateRegs);
-  const isOpen = opp.Access.includes('Open');
+  const regs = [opp.MethodOfTake, opp.DateTime, opp.BagLimits, opp.Access].map(helpers.matchesStateRegs);
   return `
     <p><strong>${opp.Species}</strong></p>
     <ul class="huntable-species-list">
       ${regs[0] ? '' : `<li>Method of take: <a href="${urlHunting}" target="_blank">${opp.MethodOfTake}</a></li>`}
       ${regs[1] ? '' : `<li>Date & times: <a href="${urlHunting}" target="_blank">${opp.DateTime}</a></li>`}
       ${regs[2] ? '' : `<li>Bag limit: <a href="${urlHunting}" target="_blank">${opp.BagLimits}</a></li>`}
-      ${!isOpen ? `<li>Access: <a href="${opp.url}" target="_blank">${opp.Access}</a></li>` : '' }
+      ${opp.SpecialOpportunities ? `<li><a href="${urlHunting}" target="_blank">${opp.SpecialOpportunities}</a></li>` : '' }
     </ul>`;
 };
 
@@ -31,7 +30,7 @@ const createHuntUnitItem = (unit, urlHunting) => `
 const createFacilityItem = (facility) => {
   if (!facility) return;
   return `
-    ${facility.url ? `<button class="zoom-to-refuge hidden-button" value="${facility.orgCode}"><h3>${facility.name} in ${facility.state}</h3></button>` : ''}
+    ${facility.urlHunting ? `<button class="zoom-to-refuge hidden-button" value="${facility.orgCode}"><h3>${facility.name} in ${facility.state}</h3></button>` : ''}
     ${facility.units.map((u) => createHuntUnitItem(u, facility.urlHunting)).join('')}
   `;
 };
